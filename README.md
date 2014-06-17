@@ -1,2 +1,2 @@
-fpinswift-beta
+Functional Programming in Swift (Beta)
 ==============
