@@ -16,7 +16,7 @@ Functional Programming Matters, John Hughes writes:
 > input as its argument and delivers the program’s output as its
 > result.
 
-So rather than thinking as a program as a sequence of assignments and
+So rather than thinking of a program as a sequence of assignments and
 method calls, functional programmers emphasise that each program can
 be repeatedly broken into smaller and smaller pieces. By avoiding
 assignment statements and side-effects, Hughes argues that functional
