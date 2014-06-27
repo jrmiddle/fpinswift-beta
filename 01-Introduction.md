@@ -30,7 +30,7 @@ confusing; the lack of assignment statements and global state is
 crippling; closures, generics, higher-order functions, and monads are
 just plain weird.
 
-In this book, we want to demystify functional programming and dispell
+In this book, we want to demystify functional programming and dispel
 some of the prejudices people may have against it. You don't need to
 have a PhD in mathematics to use these ideas to improve your code!  We
 won't cover the complete Swift language specification or teach you to
