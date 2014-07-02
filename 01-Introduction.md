@@ -4,7 +4,7 @@ Why write this book? There is plenty of documentation on Swift readily
 available from Apple, and there are many more books on the way. Why does the
 world need yet another book on yet another programming language?
 
-This books tries to teach you to think *functionally*. We believe that
+This book tries to teach you to think *functionally*. We believe that
 Swift has the proper language features to teach you how to write
 *functional programs*. But what makes a program functional? Or why
 bother learning about this in the first place? In his paper, "Why
