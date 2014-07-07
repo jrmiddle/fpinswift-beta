@@ -1,6 +1,9 @@
 
 
+
 # QuickCheck
+
+##### ⚠ this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes. ⚠
 
 In recent years, testing has become much more prevalent in Objective-C. Many popular libraries are now tested automatically with continuous integration tools. The standard framework for writing unit tests is [XCTest](https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html). In addition, a lot of third-party frameworks are available (such as Specta, Kiwi and FBSnapshotTestCase), and a number of frameworks are currently being developed in Swift.
 

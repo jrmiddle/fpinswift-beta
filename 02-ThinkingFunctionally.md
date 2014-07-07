@@ -1,5 +1,7 @@
 # Thinking Functionally
 
+##### ⚠ this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes. ⚠
+
 
 ## What this chapter is about
 
