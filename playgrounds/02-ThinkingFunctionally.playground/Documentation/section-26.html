@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 27</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The way we&#39;ve defined the <code>Region</code> type does have its disadvantages. In particular, we cannot inspect <em>how</em> a region was constructed: is it composed of smaller regions? Or is it simply a circle around the origin? The only thing we can do is to check whether or not a given point is within a region or not. If we would want to visualize a region, we would have to sample enough points to generate a (black and white) bitmap. </p>
+<p>In <a href="TODO Forward reference">later chapters</a> we will sketch an alternative design that will let you answer these questions. </p>
+<h2 id="type-driven-development">Type-driven development</h2>
+<p>In the introduction, we mentioned how functional programs take the application of functions to arguments as the canonical way to assemble bigger programs. In this chapter, we have seen a concrete example of this functional design methodology. We have defined a series of functions for describing regions. Each of these functions is not very powerful by itself. Yet together, they can describe complex regions that you wouldn&#39;t want to write from scratch.</p>
+<p>The solution is simple and elegant. It is quite different from what you might write, had you just refactored the <code>inRange₄</code> function into separate methods. The crucial design decision we made was <em>how</em> to define regions. Once we chose the <code>Region</code> type, all the other definitions followed naturally. The moral of the example is <strong>choose your types carefully</strong>. More than anything else, types guide the development process. </p>
+<p>[^ARPA]: The code presented here is inspired by the Haskell solution to a problem posed by the ARPA documented here: Hudak, Paul, and Mark P. Jones. <em>Haskell vs. Ada vs. C++ vs. awk vs.... an experiment in software prototyping productivity</em>. Technical report, Yale University, Dept. of CS, New Haven, CT, 1994.</p>
+
+  </section>
+</div>
+</body>
+</html>

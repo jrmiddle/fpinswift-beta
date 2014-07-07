@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 19</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The call <code>shift(offset, region)</code> moves the region to the right and up by <code>offet.x</code> and <code>offset.y</code> respectively. How is it implemented? Well we need to return a <code>Region</code>, that is a function from points to <code>Bool</code>. To do this, we start writing another closure, introducing the point we need to check. From this point, we compute a new point with the coordinates <code>point.x - offset.x</code> and <code>point.y - offset.y</code>. Finally, we check that this new point is in the <em>original</em> region by passing it as an arguments to the <code>region</code> function.</p>
+<p>Interestingly, there are lots of other ways to transform existing regions. For instance, we may want to define a new region by inverting a region. The resulting region consists of all the points outside the original region:</p>
+
+  </section>
+</div>
+</body>
+</html>
