@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 
 Why write this book? There is plenty of documentation on Swift readily
 available from Apple, and there are many more books on the way. Why does the
