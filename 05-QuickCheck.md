@@ -88,7 +88,7 @@ Now we can generate random integers like this:
 ```
 Int.arbitrary()
 
-> 1296035768
+> 4089698488
 ```
 
 To generate random strings, we need to do a little bit more work. First, we generate a random length `x` between 0 and 100. Then, we generate `x` random characters, and append them to the string:
@@ -98,7 +98,7 @@ extension String : Arbitrary {
     static func arbitrary() -> String {
         let randomLength = random(from: 0, to: 100)
         var string = ""
-        for _ in 0..randomLength {
+        for _ in 0..<randomLength {
             let randomInt : Int = random(from: 13, to: 255)
             string += Character(UnicodeScalar(randomInt))
         }
@@ -113,7 +113,8 @@ We can call it in the same way as we generate random `Int`s, except, that we cal
 ```
 String.arbitrary()
 
-> rÇÖoàò7Ü¡ú0TAÅ¯r¾:G«
+> ¥ÖßBg®ÀÑ'¬QÛþåmi
+> ÃùáÒçÞ
 ```
 
 ### Implementing the `check` function
@@ -122,7 +123,7 @@ Now we are ready to implement a first version of our check function.
 
 ```swift
 func check₁<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
-    for _ in 0..numberOfIterations {
+    for _ in 0..<numberOfIterations {
         let value = A.arbitrary()
         if !prop(value) {
             println("\"\(message)\" doesn't hold: \(value)")
@@ -151,7 +152,7 @@ If we run our `check₁` function on strings, we might get quite a long failure 
 ```
 check₁("Every string starts with Hello") {(s: String) in s.hasPrefix("Hello")}
 
-> "Every string starts with Hello" doesn't hold: R>nþ!!3GÛ\IxhÌÅØä]:ÈæAsyz±lûàÆ®Hyÿ;MÅ¨üÔĉV7Ò<ÐIâsß«ý
+> "Every string starts with Hello" doesn't hold: 8¿³%p{Åą1ääøă}#4íÖÃÓ/xqnNô¦4ąIn¬Îã
 > ()
 ```
 
@@ -211,7 +212,7 @@ We can now redefine our `check` function to shrink any test data that triggers a
 
 ```swift
 func check₂<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
-    for _ in 0..numberOfIterations {
+    for _ in 0..<numberOfIterations {
         let value = A.arbitrary()
         if !prop(value) {
             let smallerValue = iterateWhile({ value in !prop(value) }, initialValue: value) { 
@@ -249,7 +250,7 @@ func iterateWhile<A>(condition: A -> Bool, #initialValue: A, next: A -> A?) -> A
 Let's suppose we write a version of QuickSort in Swift:
 
 ```swift
-func qsort(var array: Int[]) -> Int[] {
+func qsort(var array: [Int]) -> [Int] {
     if array.count == 0 { return [] }
     let pivot = array.removeAtIndex(0)
     let lesser = array.filter { $0 < pivot }
@@ -261,10 +262,10 @@ func qsort(var array: Int[]) -> Int[] {
 And we can write a property to check our version of QuickSort against the built-in sort function:
 
 ```swift
-check₂("qsort should behave like sort", { (x: Int[]) in return qsort(x) == sort(x) })
+check₂("qsort should behave like sort", { (x: [Int]) in return qsort(x) == sort(x) })
 ```
 
-However, the compiler warns us that `Int[]` doesn't conform to the `Arbitrary` protocol.
+However, the compiler warns us that `[Int]` doesn't conform to the `Arbitrary` protocol.
 In order to implement `Arbitrary`, we first have to implement `Smaller`:
 
 
@@ -288,7 +289,7 @@ Unfortunately, it is currently not possible to express this restriction at the t
 func check<X : Arbitrary>(message: String, prop : Array<X> -> Bool) -> () {
     let arbitraryArray : () -> Array<X> = {
         let randomLength = Int(arc4random() % 50)
-        return Array(0..randomLength).map { _ in return X.arbitrary() }
+        return Array(0..<randomLength).map { _ in return X.arbitrary() }
     }
     let smaller : Array<X> -> Array<X>? = {
       return $0.smaller()
@@ -301,7 +302,7 @@ Now, instead of duplicating the logic from `check₂`, we can extract a helper f
 
 ```swift
 func checkHelper<A>(arbitraryInstance: ArbitraryI<A>, prop: A -> Bool, message: String) -> () {
-    for _ in 0..numberOfIterations {
+    for _ in 0..<numberOfIterations {
         let value = arbitraryInstance.arbitrary()
         if !prop(value) {
             let smallerValue = iterateWhile({ !prop($0) }, initialValue: value, arbitraryInstance.smaller)
@@ -328,7 +329,7 @@ Now, we can finish our `check` function for arrays:
 func check<X : Arbitrary>(message: String, prop : Array<X> -> Bool) -> () {
     let arbitraryArray : () -> Array<X> = {
         let randomLength = Int(arc4random() % 50)
-        return Array(0..randomLength).map { _ in return X.arbitrary() }
+        return Array(0..<randomLength).map { _ in return X.arbitrary() }
      }
     let instance = ArbitraryI(arbitrary: arbitraryArray, smaller: { $0.smaller() })
     checkHelper(instance, prop, message)
@@ -347,7 +348,7 @@ func check<X : Arbitrary>(message: String, prop : X -> Bool) -> () {
 Now, we can finally run `check` to verify our QuickSort implementation:
 
 ```
-check("qsort should behave like sort", { (x: Int[]) in return qsort(x) == sort(x) })
+check("qsort should behave like sort", { (x: [Int]) in return qsort(x) == x.sorted(<) })
 
 > "qsort should behave like sort" passed 100 tests.
 > ()

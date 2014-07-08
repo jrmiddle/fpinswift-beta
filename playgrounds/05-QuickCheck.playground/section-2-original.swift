@@ -37,6 +37,7 @@ func check<X : Arbitrary, Y: Arbitrary>(message: String, prop: (X,Y) -> Bool) ->
                 return (newX,newY)
             }
         }
+        return nil // TODO: how can we make this smaller?
     }
     
     let instance = ArbitraryI(arbitrary: arbritaryTuple, smaller: smaller)

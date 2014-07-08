@@ -1,5 +1,5 @@
 // You might want to turn this down to a really low number when running this in a playground.
-let numberOfIterations = 100
+let numberOfIterations = 10
 
 import Foundation
 
@@ -37,6 +37,7 @@ func check<X : Arbitrary, Y: Arbitrary>(message: String, prop: (X,Y) -> Bool) ->
                 return (newX,newY)
             }
         }
+        return nil // TODO: how can we make this smaller?
     }
     
     let instance = ArbitraryI(arbitrary: arbritaryTuple, smaller: smaller)

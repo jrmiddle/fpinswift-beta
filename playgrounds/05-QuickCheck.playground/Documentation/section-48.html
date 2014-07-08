@@ -12,7 +12,6 @@
 <div class="content-wrapper">
   <section class="section">
     <p>Now, if we want to test this function, we also need an <code>Arbitrary</code> instance that produces arrays. However, to define an instance for <code>Array</code>, we also need to make sure that the element type of the array is also an instance of <code>Arbitrary</code>. For example, in order to generate an array of random numbers, we first need to make sure that we can generate random numbers.</p>
-<p>TODO: make it more explicit why this is not possible. maybe even write down what you&#39;d like to do, but what doesn&#39;t work.</p>
 <p>Unfortunately, it is currently not possible to express this restriction at the type level, making it impossible to make <code>Array</code> conform to the <code>Arbitrary</code> protocol. However, what we <em>can</em> do is overload the <code>check</code> function. First, now that the compiler knows we can generate random values of <code>X</code>, we can write a function that generates a random array filled with random <code>X</code> values:</p>
 
   </section>
