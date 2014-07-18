@@ -12,7 +12,9 @@
 <div class="content-wrapper">
   <section class="section">
     <p>Note that we are using Swift&#39;s <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Types.html">typealias</a> construct let us introduce a new name for an existing type. From now on, whenever we write <code>Position</code>, feel free to read <code>CGPoint</code>, a pair of an <code>x</code> and <code>y</code> coordinate.</p>
-<p>Now this works fine, if you assume that the we are always located at the origin. Perhaps it would be better though to pass in additional arguments representing our current location:</p>
+<p>Now this works fine, if you assume that the we are always located at the origin. Suppose the ship may be at a location, <code>ownposition</code>, other than the origin. We can update our visualization to look something like this:</p>
+<p><img src="battleship-2.png" alt=""></p>
+<p>We now add an argument representing the location of the ship to our <code>inRange</code> function:</p>
 
   </section>
 </div>

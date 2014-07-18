@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 1</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <h1 id="wrapping-core-image">Wrapping Core Image</h1>
+<p>Core Image is a powerful image processing framework, but its API can be a bit clunky to use at times. The Core Image API is loosely typed -- image filters are configured using key-value-coding. It is all too easy to make mistakes in the type or name of arguments, which can result in run-time errors.</p>
+<p>In this chapter we will develop a functional API, wrapped around the (object-oriented) Core Image framework. As a result, we can create and chain filters easily, while improving the static guarantees about our filters at the same time.</p>
+<h2 id="the-filter-type">The Filter Type</h2>
+<p>When you instantiate a <code>CIFilter</code> object, you (almost) always provide an input image via the <code>kCIInputImageKey</code> key and then retrieve the filtered result via the <code>kCIOutputImageKey</code> key. Then you can use this result as input for the next filter. </p>
+<p>So we can define a filter simply as a function that takes an image as parameter and returns an image:</p>
+
+  </section>
+</div>
+</body>
+</html>

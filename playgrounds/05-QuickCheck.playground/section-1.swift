@@ -3,25 +3,13 @@ let numberOfIterations = 100
 
 import Foundation
 
-func iterateWhile<A>(condition: A -> Bool, #initialValue: A, next: A -> A?) -> A {
-    var value = initialValue
-    while let x = next(value) {
+func iterateWhile<A>(condition: A -> Bool, initialValue: A, next: A -> A?) -> A {
+    if let x = next(initialValue) {
         if condition(x) {
-           value = x
-        } else {
-            return value
+           return iterateWhile(condition,x,next)
         }
     }
-    return value
-}
-
-func check<X : Arbitrary>(message: String, prop : Array<X> -> Bool) -> () {
-    let arbitraryArray : () -> Array<X> = {
-        let randomLength = Int(arc4random() % 50)
-        return Array(0..<randomLength).map { _ in return X.arbitrary() }
-     }
-    let instance = ArbitraryI(arbitrary: arbitraryArray, smaller: { $0.smaller() })
-    checkHelper(instance, prop, message)
+    return initialValue
 }
 
 func check<X : Arbitrary>(message: String, prop : X -> Bool) -> () {
@@ -46,3 +34,8 @@ func check<X : Arbitrary, Y: Arbitrary>(message: String, prop: (X,Y) -> Bool) ->
 func random (#from: Int, #to: Int) -> Int {
     return from + (Int(arc4random()) % to)
 }
+
+func repeat<A>(times: Int, f: Int -> A) -> [A] {
+    return Array(0..<times).map(f)
+}
+

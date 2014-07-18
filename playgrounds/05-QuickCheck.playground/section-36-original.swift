@@ -1,5 +1,5 @@
 extension String : Smaller {
     func smaller() -> String? {
-        return self.isEmpty ? nil : self.substringFromIndex(1)
+        return self.isEmpty ? nil : self[startIndex.successor()..<endIndex]
     }
 }

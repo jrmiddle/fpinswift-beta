@@ -1,4 +1,4 @@
-func check₁<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
+func check1<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
     for _ in 0..<numberOfIterations {
         let value = A.arbitrary()
         if !prop(value) {

@@ -11,7 +11,8 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>And we can write an overloaded variant of <code>check</code> that works on every type that conforms to <code>Arbitrary</code>:</p>
+    <p>This is a standard technique: instead of working with functions defined in a protocol, we pass the required information as an argument explicitly. By doing so, we have a bit more flexibility. We no longer rely on Swift to <em>infer</em> the required information, but have complete control over this ourself.</p>
+<p>We can redefine our <code>check2</code> function to use the <code>checkHelper</code> function. If we know that we have the desired <code>Arbitrary</code> definitions, we can wrap them in the <code>ArbitraryI</code> struct and call <code>checkHelper</code>:</p>
 
   </section>
 </div>

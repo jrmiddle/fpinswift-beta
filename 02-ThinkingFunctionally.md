@@ -10,37 +10,51 @@ Functions in Swift are *first-class values*, i.e., functions may be passed as ar
 
 ## Example: Battleship
 
-We'll introduce first-class functions using the example of an algorithm you would implement if you would want to create a Battleship game.[^ARPA] The problem we'll look at boils down to determining whether or not a given point is in range, without being too close to friendly ships or ourselves.
+We'll introduce first-class functions using the example of an algorithm you would implement if you would want to create a Battleship-like game.[^ARPA] The problem we'll look at boils down to determining whether or not a given point is in range, without being too close to friendly ships or ourselves.
 
-As a first approximation, you might write a very simple function that checks whether or not a point is in range:
+As a first approximation, you might write a very simple function that checks whether or not a point is in range. For the sake of simplicity, we will assume that our ship is located at the origin. We can visualize the region we want to describe as follows:
+
+![](battleship-1.png)
+
+The first function we write, `inRange1` checks when a point is in the grey area in the picture above. Using some basic geometry, we can write this function as follows:
+
 
 
 ```swift
 typealias Position = CGPoint
 
-func inRange₁(target: Position, range: Double) -> Bool {
+func inRange1(target: Position, range: Double) -> Bool {
    return sqrt(target.x * target.x + target.y * target.y) <= range
 }
 ```
 
 Note that we are using Swift's [typealias](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Types.html) construct let us introduce a new name for an existing type. From now on, whenever we write `Position`, feel free to read `CGPoint`, a pair of an `x` and `y` coordinate.
 
-Now this works fine, if you assume that the we are always located at the origin. Perhaps it would be better though to pass in additional arguments representing our current location:
+Now this works fine, if you assume that the we are always located at the origin. Suppose the ship may be at a location, `ownposition`, other than the origin. We can update our visualization to look something like this:
+
+![](battleship-2.png)
+
+
+We now add an argument representing the location of the ship to our `inRange` function:
 
 ```swift
-func inRange₂(target: Position, ownPosition: Position, range: Double) -> Bool {
+func inRange2(target: Position, ownPosition: Position, range: Double) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    return sqrt(dx * dx + dy * dy) <= range
 }
 ```
 
-But now you realize that you also want to avoid targeting ships if they are too close to yourself. So you change your code again:
+But now you realize that you also want to avoid targeting ships if they are too close to yourself. We can update our picture to illustrate the new situation, where we want to target only those enemies that are at least `minD` away from our current position:
+
+![](battleship-3.png)
+
+As a result, we need to modify our code again:
 
 ```swift
 let minimumDistance = 2.0
 
-func inRange₃(target: Position, ownPosition: Position, range: Double) -> Bool {
+func inRange3(target: Position, ownPosition: Position, range: Double) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    return sqrt(dx * dx + dy * dy) <= range
@@ -48,10 +62,14 @@ func inRange₃(target: Position, ownPosition: Position, range: Double) -> Bool 
 }
 ```
 
-Finally, you also need to avoid targeting ships that are too close to one of your other ships. To handle this, you add further arguments that represent the location of a friendly ship, and update your code accordingly:
+Finally, you also need to avoid targeting ships that are too close to one of your other ships. We can visualize this by as follows:
+
+![](battleship-4.png)
+
+Correspondingly, we can add a further argument that represents the location of a friendly ship to our `inRange` function:
 
 ```swift
-func inRange₄(target: Position, ownPosition: Position, friendly: Position, range: Double) -> Bool {
+func inRange4(target: Position, ownPosition: Position, friendly: Position, range: Double) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    let friendlyDx = friendly.x - target.x
@@ -73,7 +91,7 @@ The original problem boiled down to defining a function that determined when a p
 
 ```
 func pointInRange(point: Position) -> Bool {
-    // ...
+    // Implement method here
 }
 ```
 
@@ -83,11 +101,11 @@ The type of this function is going to be so important, that we're going to give 
 typealias Region = (Position) -> Bool
 ```
 
-From now on, the `Region` type will refer to functions from a `Position` to a `Bool`. This isn't strictly necessary, but it can make some of the type signatures that we'll see below a bit easier to digest.
+From now on, the `Region` type will refer to functions from a `Position` to a `Bool`. This isn't strictly necessary, but it can make some of the type signatures that we'll see below a bit easier to digest. 
 
-Instead of defining an object or struct to represent regions, we represent a region by a *function* that determines if a given point is in the region or not. If you're not used to functional programming this may seem strange, but remember: functions in Swift are first-class values!
+Instead of defining an object or struct to represent regions, we represent a region by a *function* that determines if a given point is in the region or not. If you're not used to functional programming this may seem strange, but remember: functions in Swift are first-class values! We conciously choose the name `Region` for this type rather than something like `CheckInRegion` or `RegionBlock`. These names suggest that they denote a function type; yet the key philosophy underlying *functional programming* is that functions are values, no different from structs, Ints or Bools -- using a separate naming convention for functions would violate this philosophy. 
 
-Going forward, we will write functions that create, manipulate and combine such regions. 
+We will now write several functions that create, manipulate and combine regions. 
 
 The first region we define is a `circle`, centered around the origin:
 
@@ -146,7 +164,7 @@ Now let's turn our attention back to our original example. With this small libra
 
 ```swift
 func inRange(ownPosition: Position, target: Position, friendly: Position, range: Double) -> Bool {
-  let targetRegion = difference(circle(range), circle(minimumDistance))
+  let targetRegion = shift(ownPosition, difference(circle(range), circle(minimumDistance)))
   let friendlyRegion = shift(friendly, circle(minimumDistance))
   return difference(targetRegion, friendlyRegion)(target)
 }
@@ -160,7 +178,7 @@ The way we've defined the `Region` type does have its disadvantages. In particul
 
 In the introduction, we mentioned how functional programs take the application of functions to arguments as the canonical way to assemble bigger programs. In this chapter, we have seen a concrete example of this functional design methodology. We have defined a series of functions for describing regions. Each of these functions is not very powerful by itself. Yet together, they can describe complex regions that you wouldn't want to write from scratch.
 
-The solution is simple and elegant. It is quite different from what you might write, had you just refactored the `inRange₄` function into separate methods. The crucial design decision we made was *how* to define regions. Once we chose the `Region` type, all the other definitions followed naturally. The moral of the example is **choose your types carefully**. More than anything else, types guide the development process. 
+The solution is simple and elegant. It is quite different from what you might write, had you just refactored the `inRange4` function into separate methods. The crucial design decision we made was *how* to define regions. Once we chose the `Region` type, all the other definitions followed naturally. The moral of the example is **choose your types carefully**. More than anything else, types guide the development process. 
 
 [^ARPA]: The code presented here is inspired by the Haskell solution to a problem posed by the ARPA documented here: Hudak, Paul, and Mark P. Jones. *Haskell vs. Ada vs. C++ vs. awk vs.... an experiment in software prototyping productivity*. Technical report, Yale University, Dept. of CS, New Haven, CT, 1994.
 

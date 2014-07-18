@@ -11,15 +11,10 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>func check<X : Arbitrary>(message: String, prop : Array<X> -&gt; Bool) -&gt; () {
-    let arbitraryArray : () -&gt; Array<X> = {
-        let randomLength = Int(arc4random() % 50)
-        return Array(0..<randomLength).map { _ in return X.arbitrary() }
+    <p>extension Array<T: Arbitrary> : Arbitrary {
+    static func arbitrary() -&gt; [T] {
+        ...
     }
-    let smaller : Array<X> -&gt; Array<X>? = {
-      return $0.smaller()
-    }
-    ...
 }</p>
 
   </section>

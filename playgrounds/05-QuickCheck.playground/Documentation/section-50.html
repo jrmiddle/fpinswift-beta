@@ -11,7 +11,7 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>Now, instead of duplicating the logic from <code>check₂</code>, we can extract a helper function. This takes an extra parameter of type <code>ArbitraryI&lt;A&gt;</code>, which is a struct with two functions: one for generating arbitrary values of <code>A</code>, and one for making values of <code>A</code> smaller:</p>
+    <p>Now what we&#39;d like to do is define an extension that uses the <code>abritraryArray</code> function to give the desired <code>Arbitrary</code> instance for arrays. However, to define an instance for <code>Array</code>, we also need to make sure that the element type of the array is also an instance of <code>Arbitrary</code>. For example, in order to generate an array of random numbers, we first need to make sure that we can generate random numbers. Ideally, we would write something like this, saying that the elements of an array should also conform to the arbitrary protocol:</p>
 
   </section>
 </div>

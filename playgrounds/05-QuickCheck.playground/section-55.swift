@@ -2,7 +2,7 @@ func checkHelper<A>(arbitraryInstance: ArbitraryI<A>, prop: A -> Bool, message: 
     for _ in 0..<numberOfIterations {
         let value = arbitraryInstance.arbitrary()
         if !prop(value) {
-            let smallerValue = iterateWhile({ !prop($0) }, initialValue: value, arbitraryInstance.smaller)
+            let smallerValue = iterateWhile({ !prop($0) }, value, arbitraryInstance.smaller)
             println("\"\(message)\" doesn't hold: \(smallerValue)")
             return
         }

@@ -15,8 +15,8 @@ func iterateWhile<A>(condition: A -> Bool, #initialValue: A, next: A -> A?) -> A
     return value
 }
 
-func check<X : Arbitrary>(message: String, prop : Array<X> -> Bool) -> () {
-    let arbitraryArray : () -> Array<X> = {
+func check<X : Arbitrary>(message: String, prop : [X] -> Bool) -> () {
+    let arbitraryArray : () -> [X] = {
         let randomLength = Int(arc4random() % 50)
         return Array(0..<randomLength).map { _ in return X.arbitrary() }
      }
@@ -37,7 +37,6 @@ func check<X : Arbitrary, Y: Arbitrary>(message: String, prop: (X,Y) -> Bool) ->
                 return (newX,newY)
             }
         }
-        return nil // TODO: how can we make this smaller?
     }
     
     let instance = ArbitraryI(arbitrary: arbritaryTuple, smaller: smaller)

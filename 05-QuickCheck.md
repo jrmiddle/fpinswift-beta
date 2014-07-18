@@ -46,7 +46,7 @@ Now, if we run QuickCheck on this function, we will get a failing test case:
 ```
 check("Minus should be commutative", minusIsCommutative)
 
-> "Minus should be commutative" doesn't hold: (1, 0)
+> "Minus should be commutative" doesn't hold: (0, 1)
 > ()
 ```
 
@@ -88,41 +88,52 @@ Now we can generate random integers like this:
 ```
 Int.arbitrary()
 
-> 4089698488
+> 2194277656
 ```
 
-To generate random strings, we need to do a little bit more work. First, we generate a random length `x` between 0 and 100. Then, we generate `x` random characters, and append them to the string:
+To generate random strings, we need to do a little bit more work. First, we generate a random length `x` between 0 and 100. Then, we generate `x` random characters, and reduce them into a string. 
 
 ```swift
+
+extension Character : Arbitrary {
+  static func arbitrary() -> Character {
+    return Character(UnicodeScalar(random(from: 13, to:255)))
+  }
+
+  func smaller() -> Character? { return nil }
+}
+
 extension String : Arbitrary {
     static func arbitrary() -> String {
         let randomLength = random(from: 0, to: 100)
-        var string = ""
-        for _ in 0..<randomLength {
-            let randomInt : Int = random(from: 13, to: 255)
-            string += Character(UnicodeScalar(randomInt))
-        }
-        return string
+        let randomCharacters = repeat(randomLength) { _ in Character.arbitrary() }
+        return reduce(randomCharacters, "", +)
     }
     
 }
 ```
+
 
 We can call it in the same way as we generate random `Int`s, except, that we call it on the `String` class:
 
 ```
 String.arbitrary()
 
-> ¥ÖßBg®ÀÑ'¬QÛþåmi
-> ÃùáÒçÞ
+> Âejòĉ[ ĆòÁ4æ.OôòaeæQ;mą=Ą3V=Ð1({.Y½NuíSÖEH·¢Y³OPÇê¸8*×ċ|'Ä6ÕJ=ÆćsÐè»
 ```
 
 ### Implementing the `check` function
 
-Now we are ready to implement a first version of our check function.
+Now we are ready to implement a first version of our check function.  The
+`check1` function consists of a simple loop that generates random input for the
+argument property in every iteration. If a counterexample is found, it is
+printed and the function returns; if no counterexample is found, the `check1`
+function reports the number of successful tests that have passed. (Note that we
+called the function `check1`, because we'll write the final version a bit
+later).
 
 ```swift
-func check₁<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
+func check1<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
     for _ in 0..<numberOfIterations {
         let value = A.arbitrary()
         if !prop(value) {
@@ -134,12 +145,10 @@ func check₁<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
 }
 ```
 
-The `check₁` function consists of a simple loop that generates random input for the argument property in every iteration. If a counterexample is found, it is printed and the function returns; if no counterexample is found, the `check₁` function reports the number of successful tests that have passed. (Note that we called the function `check₁`, because we'll write the final version a bit later).
-
 Here's how we can use this function to test properties:
 
 ```
-check₁("Additive identity") {(x : Int) in x + 0 == x }
+check1("Additive identity") {(x : Int) in x + 0 == x }
 
 > "Additive identity" passed 100 tests.
 > ()
@@ -147,12 +156,12 @@ check₁("Additive identity") {(x : Int) in x + 0 == x }
 
 ### Making values smaller
 
-If we run our `check₁` function on strings, we might get quite a long failure message:
+If we run our `check1` function on strings, we might get quite a long failure message:
 
 ```
-check₁("Every string starts with Hello") {(s: String) in s.hasPrefix("Hello")}
+check1("Every string starts with Hello") {(s: String) in s.hasPrefix("Hello")}
 
-> "Every string starts with Hello" doesn't hold: 8¿³%p{Åą1ääøă}#4íÖÃÓ/xqnNô¦4ąIn¬Îã
+> "Every string starts with Hello" doesn't hold: aU;³Ø#ÆÇðIg«¡'¡ëbßÈZ[ą/Ø¤ÿYª,d4$FĂMÉâRăk¶4Àz
 > ()
 ```
 
@@ -186,12 +195,12 @@ We can now test our instance:
 > 50
 ```
 
-For strings, we just take the substring from the first index (unless the string is empty).
+For strings, we just drop the first character (unless the string is empty).
 
 ```swift
 extension String : Smaller {
     func smaller() -> String? {
-        return self.isEmpty ? nil : self.substringFromIndex(1)
+        return self.isEmpty ? nil : self[startIndex.successor()..<endIndex]
     }
 }
 
@@ -206,16 +215,29 @@ protocol Arbitrary : Smaller {
 }
 ```
 
-### Iterating while we found the value
+### Repeatedly shrinking
 
 We can now redefine our `check` function to shrink any test data that triggers a failure. To do this, we use the `iterateWhile` function that takes a condition, an initial value and repeatedly applies a function as long as the condition holds.
+```swift
+func iterateWhile<A>(condition: A -> Bool, initialValue: A, next: A -> A?) -> A {
+    if let x = next(initialValue) {
+        if condition(x) {
+           return iterateWhile(condition,x,next)
+        }
+    }
+    return initialValue
+}
+```
+
+
+Using `iterateWhile` we can now repeatedly shrink counterexamples that we uncover during testing:
 
 ```swift
-func check₂<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
+func check2<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
     for _ in 0..<numberOfIterations {
         let value = A.arbitrary()
         if !prop(value) {
-            let smallerValue = iterateWhile({ value in !prop(value) }, initialValue: value) { 
+            let smallerValue = iterateWhile({ value in !prop(value) }, value) { 
               $0.smaller() 
             }
             println("\"\(message)\" doesn't hold: \(smallerValue)")
@@ -226,32 +248,14 @@ func check₂<A: Arbitrary>(message: String, prop: A -> Bool) -> () {
 }
 ```
 
-The `iterateWhile` function is defined as follows:
 
-```swift
-func iterateWhile<A>(condition: A -> Bool, #initialValue: A, next: A -> A?) -> A {
-    var value = initialValue
-    while let x = next(value) {
-        if condition(x) {
-           value = x
-        } else {
-            return value
-        }
-    }
-    return value
-}
-```
+### Arbitrary Arrays
 
-
-### Adding support for tuples and arrays
-
-##### ⚠ The rest of this chapter needs to be revised a bit. ⚠
-
-Let's suppose we write a version of QuickSort in Swift:
+Currently, our `check2` function only supports `Int` and `String` values. While we are free to define new extensions for other types, such as `Bool`, things get more complicated when we want to generate arbitrary arrays. As a motivating example, let's  write a functional version of QuickSort:
 
 ```swift
 func qsort(var array: [Int]) -> [Int] {
-    if array.count == 0 { return [] }
+    if array.isEmpty { return [] }
     let pivot = array.removeAtIndex(0)
     let lesser = array.filter { $0 < pivot }
     let greater = array.filter { $0 >= pivot }
@@ -259,62 +263,48 @@ func qsort(var array: [Int]) -> [Int] {
 }
 ```
 
-And we can write a property to check our version of QuickSort against the built-in sort function:
+We can also try to write a property to check our version of QuickSort against the built-in sort function:
 
 ```swift
-check₂("qsort should behave like sort", { (x: [Int]) in return qsort(x) == sort(x) })
+check2("qsort should behave like sort", { (x: [Int]) in return qsort(x) == x.sorted(<) })
 ```
 
 However, the compiler warns us that `[Int]` doesn't conform to the `Arbitrary` protocol.
-In order to implement `Arbitrary`, we first have to implement `Smaller`:
-
+In order to implement `Arbitrary`, we first have to implement `Smaller`. As a first step, we provide a simple definitian that drops the first element in the array:
 
 ```swift
 extension Array : Smaller {
-    func smaller() -> Array<T>? {
-        if self.count == 0 { return nil }
-        var copy = self
-        copy.removeAtIndex(0)
-        return copy
+    func smaller() -> [T]? {
+        return self.isEmpty ? nil : Array(self[startIndex.successor()..<endIndex])
     }
 }
 ```
 
-Now, if we want to test this function, we also need an `Arbitrary` instance that produces arrays. However, to define an instance for `Array`, we also need to make sure that the element type of the array is also an instance of `Arbitrary`. For example, in order to generate an array of random numbers, we first need to make sure that we can generate random numbers.
 
-
-Unfortunately, it is currently not possible to express this restriction at the type level, making it impossible to make `Array` conform to the `Arbitrary` protocol. However, what we *can* do is overload the `check` function. First, now that the compiler knows we can generate random values of `X`, we can write a function that generates a random array filled with random `X` values:
+We can also write a function that generates an array of arbitrary length for any type that conforms to the `Arbitrary` protocol:
 
 ```swift
-func check<X : Arbitrary>(message: String, prop : Array<X> -> Bool) -> () {
-    let arbitraryArray : () -> Array<X> = {
-        let randomLength = Int(arc4random() % 50)
-        return Array(0..<randomLength).map { _ in return X.arbitrary() }
-    }
-    let smaller : Array<X> -> Array<X>? = {
-      return $0.smaller()
-    }
-    ...
+func arbitraryArray<X: Arbitrary>() -> [X] {
+  let randomLength = Int(arc4random() % 50)
+  return repeat(randomLength) {_ in return X.arbitrary() }
 }
 ```
 
-Now, instead of duplicating the logic from `check₂`, we can extract a helper function. This takes an extra parameter of type `ArbitraryI<A>`, which is a struct with two functions: one for generating arbitrary values of `A`, and one for making values of `A` smaller:
+Now what we'd like to do is define an extension that uses the `abritraryArray` function to give the desired `Arbitrary` instance for arrays. However, to define an instance for `Array`, we also need to make sure that the element type of the array is also an instance of `Arbitrary`. For example, in order to generate an array of random numbers, we first need to make sure that we can generate random numbers. Ideally, we would write something like this, saying that the elements of an array should also conform to the arbitrary protocol:
 
 ```swift
-func checkHelper<A>(arbitraryInstance: ArbitraryI<A>, prop: A -> Bool, message: String) -> () {
-    for _ in 0..<numberOfIterations {
-        let value = arbitraryInstance.arbitrary()
-        if !prop(value) {
-            let smallerValue = iterateWhile({ !prop($0) }, initialValue: value, arbitraryInstance.smaller)
-            println("\"\(message)\" doesn't hold: \(smallerValue)")
-            return
-        }
+extension Array<T: Arbitrary> : Arbitrary {
+    static func arbitrary() -> [T] {
+        ...
     }
-    println("\"\(message)\" passed \(numberOfIterations) tests.")
 }
 ```
 
-The struct is very simple, it just wraps up the two functions. Alternatively, the functions could have been passed as parameters, but because they always belong together, it's simpler to pass them around as one value.
+Unfortunately, it is currently not possible to express this restriction as a type constraint, making it impossible to write an extension that makes `Array` conform to the `Arbitrary` protocol. Instead we will modify the `check2` function.
+
+The problem with the `check2<A>` function was that it required the type `A` to be `Arbitrary`. We will drop this requirement, and instead require the necessary functions, `shrink` and `arbitrary`, to be passed as arguments.
+
+We start by defining an auxiliary struct that contains the two functions we need:
 
 ```swift
 struct ArbitraryI<T> {
@@ -323,20 +313,25 @@ struct ArbitraryI<T> {
 }
 ```
 
-Now, we can finish our `check` function for arrays:
+We can now write a helper function that takes such an `ArbitraryI` struct as an argument. The definition of `checkHelper` closely follows the `check2` function we saw previously. The only difference between the two is where the `arbitrary` and `smaller` functions are defined. In `check2` these were constraints on the generic type, `<A : Arbitrary>`; in `checkHelper` they are passed explicitly in the `ArbitraryI` struct:
 
 ```swift
-func check<X : Arbitrary>(message: String, prop : Array<X> -> Bool) -> () {
-    let arbitraryArray : () -> Array<X> = {
-        let randomLength = Int(arc4random() % 50)
-        return Array(0..<randomLength).map { _ in return X.arbitrary() }
-     }
-    let instance = ArbitraryI(arbitrary: arbitraryArray, smaller: { $0.smaller() })
-    checkHelper(instance, prop, message)
+func checkHelper<A>(arbitraryInstance: ArbitraryI<A>, prop: A -> Bool, message: String) -> () {
+    for _ in 0..<numberOfIterations {
+        let value = arbitraryInstance.arbitrary()
+        if !prop(value) {
+            let smallerValue = iterateWhile({ !prop($0) }, value, arbitraryInstance.smaller)
+            println("\"\(message)\" doesn't hold: \(smallerValue)")
+            return
+        }
+    }
+    println("\"\(message)\" passed \(numberOfIterations) tests.")
 }
 ```
 
-And we can write an overloaded variant of `check` that works on every type that conforms to `Arbitrary`:
+This is a standard technique: instead of working with functions defined in a protocol, we pass the required information as an argument explicitly. By doing so, we have a bit more flexibility. We no longer rely on Swift to *infer* the required information, but have complete control over this ourself.
+
+We can redefine our `check2` function to use the `checkHelper` function. If we know that we have the desired `Arbitrary` definitions, we can wrap them in the `ArbitraryI` struct and call `checkHelper`:
 
 ```swift
 func check<X : Arbitrary>(message: String, prop : X -> Bool) -> () {
@@ -345,7 +340,16 @@ func check<X : Arbitrary>(message: String, prop : X -> Bool) -> () {
 }
 ```
 
-Now, we can finally run `check` to verify our QuickSort implementation:
+If we have a type for which we cannot define the desired `Arbitary` instance, like arrays, we can overload the `check` function and construct the desired `ArbitraryI` struct ourself:
+
+```swift
+func check<X : Arbitrary>(message: String, prop : [X] -> Bool) -> () {
+    let instance = ArbitraryI(arbitrary: arbitraryArray, smaller: { (x: [X]) in x.smaller() })
+    checkHelper(instance, prop, message)
+}
+```
+
+Now, we can finally run `check` to verify our QuickSort implementation. Lots of random arrays will get generated and passed to our test.
 
 ```
 check("qsort should behave like sort", { (x: [Int]) in return qsort(x) == x.sorted(<) })
@@ -354,7 +358,19 @@ check("qsort should behave like sort", { (x: [Int]) in return qsort(x) == x.sort
 > ()
 ```
 
+### Next steps
 
+This library is far from complete, but already quite useful. There are a couple of obvious things that could be improved:
+
+
+* The Arbitrary instances are quite simple. For different datatypes, we might want to have more complicated arbitrary instances. For example, when generating arbitrary enum values, we might want to generate certain cases with different frequencies. We might also want to generate constrained values (for example, what if we want to test a function that expects sorted arrays?). When writing multiple `Arbitrary` instances, we might want to define some helper functions that aid us in writing these instances.
+
+* We might want to classify the generated test data. For example, if we generate a lot of arrays of length 1, we could classify this as a 'trivial' test case. The Haskell library has support for classification, these ideas could be ported directly.
+
+There are many other small and large things that could be improved to make this into a full library.
 
 [^QuickCheck]: http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.47.1361 "QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs"
+
+
+
 

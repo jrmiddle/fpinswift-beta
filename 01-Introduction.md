@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 Why write this book? There is plenty of documentation on Swift readily
 available from Apple, and there are many more books on the way. Why does the
@@ -37,3 +37,5 @@ won't cover the complete Swift language specification or teach you to
 set up your first project in Xcode. But we will try to teach you the
 basic principles of pure functional programming that will make you a
 better developer in any language.
+
+

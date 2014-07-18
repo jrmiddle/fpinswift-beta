@@ -1,0 +1,1 @@
+case Attributed(Attribute,Diagram)

@@ -1,0 +1,1 @@
+let result = colorOverlay(overlayColor)(blur(blurRadius)(image))
