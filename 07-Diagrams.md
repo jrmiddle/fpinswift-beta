@@ -1,14 +1,13 @@
 
 
-## Diagrams
+# Diagrams
 
-##### ⚠ this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes. ⚠
+####Note:  this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes.
 
-In this chapter, we'll look at a functional way to describe diagrams, and how
-to draw them with Core Graphics. By wrapping Core Graphics with a
-functional layer, we get an API that's simpler and more composable.
+In this chapter, we'll look at a functional way to describe diagrams, and how to draw them with Core Graphics. By wrapping Core Graphics with a functional layer, we get an API that's simpler and more composable.
 
-### Drawing squares and circles
+
+## Drawing squares and circles
 
 Imagine drawing the following diagram:
 
@@ -25,7 +24,7 @@ CGContextFillRect(context, CGRectMake(75.0,0.0,150.0,150.0))
 CGContextFillEllipseInRect(context, CGRectMake(225.0,37.5,75.0,75.0))
 ```
 
-This is very nice and short, but it is a bit hard to maintain. For example, what if we wanted to add an extra circle:
+This is nice and short, but it is a bit hard to maintain. For example, what if we wanted to add an extra circle:
 
 ![](generated/example2.pdf)
 
@@ -69,8 +68,8 @@ and the text below each other using the `---` operator:
 
 ```swift
 func barGraph(input: [(String,Double)]) -> Diagram {
-    let values : [Double] = input.map { $0.1 }
-    let bars =  hcat(normalize(values).map { (x: Double) -> Diagram in
+    let values : [CGFloat] = input.map { CGFloat($0.1) }
+    let bars =  hcat(normalize(values).map { (x: CGFloat) -> Diagram in
         return rect(width: 1, height: 3*x).fill(NSColor.blackColor()).alignBottom()
     })
     let labels = hcat(input.map { x in
@@ -82,7 +81,7 @@ let cities = ["Shanghai": 14.01, "Istanbul": 13.3, "Moscow": 10.56, "New York": 
 let example3 = barGraph(cities.keysAndValues)
 ```
 
-### Primitives
+## The Core Data Structures
 
 In our library, we'll draw three kinds of things: ellipses, rectangles and text. Using enums, we can define a datatype for that:
 
@@ -96,9 +95,7 @@ enum Primitive {
 
 It would be very possible to extend this with other primitives, such as images or more complex shapes.
 
-### Diagrams
-
-Diagrams are defined using an enum as well. First, a diagram could be a primitive, which has a size and is either an ellipsis, a rectangle or text. Note that we call it `Prim`, because at the time of writing, the compiler gets confused by a case that has the same name as another enum. 
+Diagrams are defined using an enum as well. First, a diagram could be a primitive, which has a size and is either an ellipsis, a rectangle or text. Note that we call it `Prim` because, at the time of writing, the compiler gets confused by a case that has the same name as another enum. 
 
 ```swift
 case Prim(CGSize, Primitive)
@@ -167,7 +164,7 @@ enum Attribute {
 }
 ```
 
-### Calculating the size
+## Calculating and Drawing
 
 Calculating the size for the `Diagram` datatype is easy. The only case that's not straightforward is for `Beside` and `Below`. In case of beside, the width is equal to the sum of the widths, and the height is equal to the maximum height of the left and right diagram. For below, it's a similar pattern. For all the other cases we just call size recursively.
 
@@ -196,8 +193,6 @@ extension Diagram {
 ```
 
 
-
-### Drawing the diagram
 
 Before we start drawing, we will first define one more function. The `fit` function takes an alignment vector (which we used in the `Align` case of a diagram), an input size (i.e. the size of a diagram) and a rectangle that we want to fit the input size into. The input size is defined relatively to the other elements in our diagram. We scale it up, and maintain its aspect ratio.
 
@@ -303,7 +298,7 @@ Our last case is aligning diagrams. Here, we can reuse the fit function that we 
 
 We've now defined the core of our library. All the other things can be built on top of these primitives.
 
-### Wrapping the drawing code with an `NSView`
+## Creating Views and PDFs
 
 We can create a subclass of `NSView` that performs the drawing, which is very
 useful when working with playgrounds or when you want to draw these diagrams in
@@ -339,24 +334,24 @@ func pdf(diagram: Diagram, width: CGFloat) -> NSData {
 ```
 
 
-### Extra combinators
+## Extra combinators
 
 To make the construction of diagrams easier, it's nice to add some extra functions (also called combinators). This is a common pattern in functional libraries: have a small set of core datatypes and functions, and then build convenience functions on top of that. For example, for rectangles, circles, text and squares we can define convenience functions:
 
 ```swift
-func rect(#width: Double, #height: Double) -> Diagram {
+func rect(#width: CGFloat, #height: CGFloat) -> Diagram {
     return Diagram.Prim(CGSizeMake(width, height), .Rectangle)
 }
 
-func circle(#radius: Double) -> Diagram {
+func circle(#radius: CGFloat) -> Diagram {
     return Diagram.Prim(CGSizeMake(radius, radius), .Ellipsis)
 }
 
-func text(#width: Double, #height: Double, text theText: String) -> Diagram {
+func text(#width: CGFloat, #height: CGFloat, text theText: String) -> Diagram {
     return Diagram.Prim(CGSizeMake(width, height), .Text(theText))
 }
 
-func square(#side: Double) -> Diagram { 
+func square(#side: CGFloat) -> Diagram { 
   return rect(width: side, height: side) 
 }
 ```

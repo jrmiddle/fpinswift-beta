@@ -1,11 +1,12 @@
-func rect(#width: Double, #height: Double) -> Diagram {
-    return Diagram.Prim(Primitive.Rectangle(width, height))
-}
+class Draw : NSView {
+    let diagram: Diagram
 
-func circle(#radius: Double) -> Diagram {
-    return Diagram.Prim(Primitive.Ellipsis(radius, radius))
-}
+    init(frame frameRect: NSRect, diagram: Diagram) {
+        self.diagram = diagram
+        super.init(frame:frameRect)
+    }
 
-func text(#width: Double, #height: Double, text theText: String) -> Diagram {
-    return Diagram.Prim(Primitive.Text(width, height, theText))
+    override func drawRect(dirtyRect: NSRect) {
+        draw(NSGraphicsContext.currentContext().cgContext, self.bounds, diagram)
+    }
 }

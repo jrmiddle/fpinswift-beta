@@ -1,13 +1,13 @@
 Map, filter, reduce
 =========
 
-##### ⚠ this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes. ⚠
+####Note:  this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes.
 
-### What this chapter is about
+## What this chapter is about
 
 First-class functions are prevalent in Swift's standard library. Functions that take functions as arguments are sometimes called *higher-order* functions. In this chapter, we will tour some of the higher-order functions functions on Arrays and Dictionaries from the Swift standard library. By doing so, we will introduce Swift's *generics*, which we illustrate by writing a small library inspired by C#'s Language Integrated Queries (LINQ).
 
-### Introducing generics
+## Introducing generics
 
 
 Suppose we need to write a function that, given an array of integers, computes a new array, where every integer in the original array has been incremented by one. Such a function is easy to write using a single `for` loop:
@@ -145,7 +145,7 @@ func doubleArray3 (xs : [Int]) -> [Int] {
 The point of this chapter is *not* to argue that you should define `map` yourself; we do want to argue that there is no magic involved in the definition of `map` -- you *could* have defined it yourself!
 
 
-### Filter
+## Filter
 
 The `map` function is not the only function in Swift's standard `Array` library that uses generics. In this section we will introduce a few others.
 
@@ -197,7 +197,7 @@ It is easy to define `getSwiftFiles` in terms of `filter`. Just like `map`, the 
 
 Now you might wonder: is there an even more general purpose function that can be used to define *both* `map` and `filter`? In the last part of this chapter, we will answer that question.
 
-### Reduce
+## Reduce
 
 Once again, let's consider a few simple functions, before defining a generic function that captures the general pattern.
 
@@ -303,7 +303,7 @@ func filterUsingReduce<T> (xs : [T], check : T -> Bool) -> [T]{
 
 This shows how the `reduce` function captures a very common programming pattern: iterating over an array to compute a result.
 
-### Putting it all together
+## Putting it all together
 
 To conclude this section, we will give a small example of `map`, `filter` and `reduce` in action.
 

@@ -1,1 +1,5 @@
-case Attributed(Attribute,Diagram)
+enum Primitive {
+    case Ellipsis
+    case Rectangle
+    case Text(String)
+}

@@ -1,3 +1,6 @@
-func circle(radius: Double) -> Region {
-    return { point in sqrt(point.x * point.x + point.y * point.y) <= radius }
+func shift(offset: Position, region: Region) -> Region {
+    return { point in
+        let shiftedPoint = Position(x: point.x - offset.x, y: point.y - offset.y)
+        return region(shiftedPoint)
+    }
 }

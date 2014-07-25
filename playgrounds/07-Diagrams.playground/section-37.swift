@@ -1,12 +1,6 @@
-class Draw : NSView {
-    let diagram: Diagram
-    
-    init(frame frameRect: NSRect, diagram: Diagram) {
-        self.diagram = diagram
-        super.init(frame:frameRect)
-    }
-    
-    override func drawRect(dirtyRect: NSRect) {
-        draw(NSGraphicsContext.currentContext().cgContext, ,self.bounds, diagram)
-    }
-}
+    case .Below(let top, let bottom):
+        let t = top.diagram()
+        let b = bottom.diagram()
+        let (lFrame, rFrame) = splitVertical(bounds, b.size/diagram.size)
+        draw(context, lFrame, b)
+        draw(context, rFrame, t)

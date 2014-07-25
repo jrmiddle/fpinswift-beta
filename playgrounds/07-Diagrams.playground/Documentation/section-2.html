@@ -11,21 +11,23 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <h2 id="diagrams">Diagrams</h2>
-<p>In this chapter, we&#39;ll look at a functional way to describe diagrams, and how
-to draw them with Core Graphics. By wrapping Core Graphics with a
-functional layer, we get an API that&#39;s simpler and more composable.</p>
-<h3 id="drawing-squares-and-circles">Drawing squares and circles</h3>
+    <h1 id="diagrams">Diagrams</h1>
+<p>NOTE: this chapter isn&#39;t copy-edited yet, so there&#39;s no need to file issues for things like spelling mistakes.</p>
+<p>In this chapter, we&#39;ll look at a functional way to describe diagrams, and how to draw them with Core Graphics. By wrapping Core Graphics with a functional layer, we get an API that&#39;s simpler and more composable.</p>
+<h2 id="drawing-squares-and-circles">Drawing squares and circles</h2>
 <p>Imagine drawing the following diagram:</p>
 <p><img src="generated/example1.pdf" alt=""></p>
 <p>In Core Graphics, we could achieve this drawing with the following command:</p>
-<p>```objectivec
-[[NSColor blueColor] setFill]
+<pre><code class="lang-objectivec">[[NSColor blueColor] setFill]
 CGContextFillRect(context, CGRectMake(0.0,37.5,75.0,75.0))
 [[NSColor redColor] setFill]
 CGContextFillRect(context, CGRectMake(75.0,0.0,150.0,150.0))
 [[NSColor greenColor] setFill]
-CGContextFillEllipseInRect(context, CGRectMake(225.0,37.5,75.0,75.0))</p>
+CGContextFillEllipseInRect(context, CGRectMake(225.0,37.5,75.0,75.0))
+</code></pre>
+<p>This is nice and short, but it is a bit hard to maintain. For example, what if we wanted to add an extra circle:</p>
+<p><img src="generated/example2.pdf" alt=""></p>
+<p>We would need to add the code for drawing a rectangle, but also update the drawing code to move some of the other objects to the right.  In Core Graphics, we always describe <em>how</em> to draw things. In this chapter, we&#39;ll build a library for diagrams that allows us to express <em>what</em> we want draw. For example, the first diagram can be expressed like this:</p>
 
   </section>
 </div>

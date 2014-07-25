@@ -21,8 +21,8 @@
         </code>
         <documentation relative-path="section-10.html">
         </documentation>
-        <documentation relative-path="section-11.html">
-        </documentation>
+        <code source-file-name="section-11.swift">
+        </code>
         <documentation relative-path="section-12.html">
         </documentation>
         <code source-file-name="section-13.swift">
@@ -48,10 +48,6 @@
         <code source-file-name="section-23.swift">
         </code>
         <documentation relative-path="section-24.html">
-        </documentation>
-        <code source-file-name="section-25.swift">
-        </code>
-        <documentation relative-path="section-26.html">
         </documentation>
     </sections>
 </playground>

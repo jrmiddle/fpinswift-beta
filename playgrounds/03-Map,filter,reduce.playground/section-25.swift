@@ -1,9 +1,7 @@
-func getSwiftFiles(files: [String]) -> [String] {
-    var result : [String] = []
-    for file in files {
-        if file.hasSuffix(".swift") {
-            result.append(file)
-        }
+func product(xs : [Int]) -> Int {
+    var result : Int = 1
+    for x in xs {
+        result = x * result
     }
     return result
 }

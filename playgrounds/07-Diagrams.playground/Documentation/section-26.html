@@ -11,7 +11,7 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>In the current version of our library, all text is set in the system font with a fixed size. It&#39;s very possible to make this an attribute or change the <code>Text</code> primitive to make this configurable.</p>
+    <p>Now that we can represent diagrams and calculate their sizes, we&#39;re ready to draw them. We use pattern matching to make it easy to know what to draw. The <code>draw</code> method takes a couple of parameters: the context to draw in, the bounds to draw in and the actual diagram. Given the bounds, the diagram will try to fit itself into the bounds using the <code>fit</code> function defined before. For example, when we draw an ellipse, we center it and make it fill the available bounds: </p>
 
   </section>
 </div>

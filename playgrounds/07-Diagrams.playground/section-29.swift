@@ -1,8 +1,3 @@
-  case .Attributed(let attribute, let d):
-    CGContextSaveGState(context)
-    switch(attribute) {
-      case .FillColor(let color):
-        color.set()
-    }
-    draw(context,bounds,d.diagram())
-    CGContextRestoreGState(context)
+    case .Prim(let size, .Rectangle):
+        let frame = fit(Vector2D(x: 0.5, y: 0.5), size, bounds)
+        CGContextFillRect(context, frame)

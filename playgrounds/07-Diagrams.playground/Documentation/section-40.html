@@ -11,8 +11,11 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <h3 id="extra-combinators">Extra combinators</h3>
-<p>To make the construction of diagrams easier, it&#39;s nice to add some extra functions (also called combinators). This is a common pattern in functional libraries: have a small set of core datatypes, and then build extra convenience functions on top of that. For example, for rectangles, circles and text we can define convenience functions:</p>
+    <p>We&#39;ve now defined the core of our library. All the other things can be built on top of these primitives.</p>
+<h2 id="creating-views-and-pdfs">Creating Views and PDFs</h2>
+<p>We can create a subclass of <code>NSView</code> that performs the drawing, which is very
+useful when working with playgrounds or when you want to draw these diagrams in
+Mac applications.:</p>
 
   </section>
 </div>

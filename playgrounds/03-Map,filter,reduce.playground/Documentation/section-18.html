@@ -11,7 +11,8 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>Here we have written a function <code>map</code> that is generic in two dimensions: for any array of <code>T</code>s and function <code>f : T -&gt; U</code>, it will produce a new array of <code>U</code>s. This <code>map</code> function is even more generic than the <code>genericComputeArray</code> function we have seen so far. In fact, we can define <code>genericComputeArray</code> in terms of <code>map</code>:</p>
+    <p>Of course, we can generalize the <code>getSwiftFiles</code> function. For instance, we could pass an additional <code>String</code> argument to check against instead of hardcoding the <code>.swift</code> extension. We could then use the same function to check for <code>.swift</code> or <code>.md</code> files. But what if we want to find all the files without a file extension? Or the files starting with the string <code>&quot;Hello&quot;</code>?</p>
+<p>To perform such queries, we define a general purpose <code>filter</code> function. Just as we saw previously with <code>map</code>, the <code>filter</code> function takes a <em>function</em> as an argument. This function has type <code>T -&gt; Bool</code> -- for every element of the array this function will determine whether or not it should be included in the result.</p>
 
   </section>
 </div>

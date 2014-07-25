@@ -1,3 +1,1 @@
-  case .Prim(Primitive.Rectangle(let width, let height)):
-      let frame = fit(Vector2D(x: 0.5, y: 0.5), CGSizeMake(width, height), bounds)
-      CGContextFillRect(context, frame)
+fit(Vector2D(x: 0, y: 0.5), CGSizeMake(1,1), CGRectMake(0,0,200,100))

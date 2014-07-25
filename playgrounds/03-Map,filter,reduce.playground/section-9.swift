@@ -1,3 +1,3 @@
-func doubleArray2 (xs : [Int]) -> [Int] {
-  return computeIntArray(xs){x in x * 2}
+func genericComputeArray2<T> (xs : [Int], f : Int -> T) -> [T] {
+       return map(xs,f)
 }

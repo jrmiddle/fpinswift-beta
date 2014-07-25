@@ -1,4 +1,4 @@
-func inRange4(target: Position, ownPosition: Position, friendly: Position, range: Double) -> Bool {
+func inRange4(target: Position, ownPosition: Position, friendly: Position, range: Distance) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    let friendlyDx = friendly.x - target.x

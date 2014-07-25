@@ -1,14 +1,15 @@
-extension Diagram {
-    func fill(color: NSColor) -> Diagram {
-      return Diagram.Attributed(Attribute.FillColor(color), self)
-    }
-    
-    func alignTop() -> Diagram {
-        return Diagram.Align(Vector2D(x: 0.5,y: 1), self)
-    }
-    
-    func alignBottom() -> Diagram {
-        return Diagram.Align(Vector2D(x:0.5, y: 0), self)
-    }
-    
+func rect(#width: CGFloat, #height: CGFloat) -> Diagram {
+    return Diagram.Prim(CGSizeMake(width, height), .Rectangle)
+}
+
+func circle(#radius: CGFloat) -> Diagram {
+    return Diagram.Prim(CGSizeMake(radius, radius), .Ellipsis)
+}
+
+func text(#width: CGFloat, #height: CGFloat, text theText: String) -> Diagram {
+    return Diagram.Prim(CGSizeMake(width, height), .Text(theText))
+}
+
+func square(#side: CGFloat) -> Diagram { 
+  return rect(width: side, height: side) 
 }

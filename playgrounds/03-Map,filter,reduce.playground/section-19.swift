@@ -1,3 +1,9 @@
-func genericComputeArray2<T> (xs : [Int], f : Int -> T) -> [T] {
-       return map(xs,f)
+func filter<T> (xs : [T], check : T -> Bool) -> [T] {
+    var result : [T] = []
+    for x in xs {
+        if check(x) {
+            result.append(x)
+        }
+    }
+    return result
 }

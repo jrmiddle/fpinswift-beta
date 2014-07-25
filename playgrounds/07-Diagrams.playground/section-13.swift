@@ -1,7 +1,5 @@
-enum Diagram {
-    case Prim(Primitive)
-    case Beside(DiagramLike,DiagramLike)
-    case Below(DiagramLike,DiagramLike)
-    case Attributed(Attribute,DiagramLike)
-    case Align(Vector2D, DiagramLike)
+protocol DiagramLike { func diagram() -> Diagram }
+
+extension Diagram: DiagramLike {
+  func diagram() -> Diagram { return self }
 }

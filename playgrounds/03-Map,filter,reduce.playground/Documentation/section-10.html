@@ -11,8 +11,8 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>Note that we are using Swift&#39;s syntax for trailing closures again here.</p>
-<p>This code is still not as flexible as it could be. Suppose we want to compute a new array of booleans, describing whether the numbers in the original array were even or not. We might try to write something like:</p>
+    <p>Once again, the definition of the function is not that interesting: given two arguments, <code>xs</code> and <code>f</code>, apply <code>map</code> to <code>(xs,f)</code> and return the result. The types are the most interesting thing about this definition. The <code>genericComputeArray</code> is an instance of the <code>map</code> function, it only has a more specific type.</p>
+<p>There is already a <code>map</code> method defined in the Swift standard library in the Array class. Instead of writing <code>map(xs,f)</code> for some array <code>xs</code> and function <code>f</code>, we can call the <code>map</code> function from the Array class by writing <code>xs.map(f)</code>. Here is an example definition of the <code>doubleArray</code> function using Swift&#39;s built-in <code>map</code> function:</p>
 
   </section>
 </div>

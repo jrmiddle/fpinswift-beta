@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 13</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <h2 id="building-quickcheck">Building QuickCheck</h2>
+<p>In order to build this library, we will need to do a couple of things. First, we need a way to generate random values for different kinds of types. Then, we need to implement the <code>check</code> function, which will feed our test with random values a number of times. Should a test fail, then we&#39;d like to make the input smaller. For example, if our test fails on an array with 100 elements, we&#39;ll try to make it smaller and see if the test still fails. Finally, we&#39;ll need to do some extra work to make sure our check function works on types that have generics.</p>
+<h3 id="generating-random-values">Generating Random Values</h3>
+<p>First, let&#39;s define a <a href="https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/Protocols.html">protocol</a> that knows how to generate arbitrary values. As the return type, we use <code>Self</code>, which is the type of the class that implements it.</p>
+<pre><code>protocol Arbitrary {
+    class func arbitrary() -&gt; Self
+}
+</code></pre><p>First, let&#39;s write an instance for <code>Int</code>. We use the <code>arc4random</code> function from the standard library and convert it into an <code>Int</code>. Note that this only generates positive integers. A real implementation of the library would generate negative integers as well, but we&#39;ll try to keep things simple in this chapter.</p>
+
+  </section>
+</div>
+</body>
+</html>

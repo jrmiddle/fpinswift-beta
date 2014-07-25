@@ -1,6 +1,6 @@
 # Thinking Functionally
 
-##### ⚠ this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes. ⚠
+####Note:  this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes.
 
 
 ## What this chapter is about
@@ -22,8 +22,9 @@ The first function we write, `inRange1` checks when a point is in the grey area 
 
 ```swift
 typealias Position = CGPoint
+typealias Distance = CGFloat
 
-func inRange1(target: Position, range: Double) -> Bool {
+func inRange1(target: Position, range: Distance) -> Bool {
    return sqrt(target.x * target.x + target.y * target.y) <= range
 }
 ```
@@ -38,7 +39,7 @@ Now this works fine, if you assume that the we are always located at the origin.
 We now add an argument representing the location of the ship to our `inRange` function:
 
 ```swift
-func inRange2(target: Position, ownPosition: Position, range: Double) -> Bool {
+func inRange2(target: Position, ownPosition: Position, range: Distance) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    return sqrt(dx * dx + dy * dy) <= range
@@ -52,9 +53,9 @@ But now you realize that you also want to avoid targeting ships if they are too 
 As a result, we need to modify our code again:
 
 ```swift
-let minimumDistance = 2.0
+let minimumDistance : Distance = 2.0
 
-func inRange3(target: Position, ownPosition: Position, range: Double) -> Bool {
+func inRange3(target: Position, ownPosition: Position, range: Distance) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    return sqrt(dx * dx + dy * dy) <= range
@@ -69,7 +70,7 @@ Finally, you also need to avoid targeting ships that are too close to one of you
 Correspondingly, we can add a further argument that represents the location of a friendly ship to our `inRange` function:
 
 ```swift
-func inRange4(target: Position, ownPosition: Position, friendly: Position, range: Double) -> Bool {
+func inRange4(target: Position, ownPosition: Position, friendly: Position, range: Distance) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    let friendlyDx = friendly.x - target.x
@@ -98,7 +99,7 @@ func pointInRange(point: Position) -> Bool {
 The type of this function is going to be so important, that we're going to give it a separate name:
 
 ```swift
-typealias Region = (Position) -> Bool
+typealias Region = Position -> Bool
 ```
 
 From now on, the `Region` type will refer to functions from a `Position` to a `Bool`. This isn't strictly necessary, but it can make some of the type signatures that we'll see below a bit easier to digest. 
@@ -110,7 +111,7 @@ We will now write several functions that create, manipulate and combine regions.
 The first region we define is a `circle`, centered around the origin:
 
 ```swift
-func circle(radius: Double) -> Region {
+func circle(radius: Distance) -> Region {
     return { point in sqrt(point.x * point.x + point.y * point.y) <= radius }
 }
 ```
@@ -163,7 +164,7 @@ This example shows how Swift lets you compute and pass around functions no diffe
 Now let's turn our attention back to our original example. With this small library in place, we can now refactor the complicated `inRange` function as follows:
 
 ```swift
-func inRange(ownPosition: Position, target: Position, friendly: Position, range: Double) -> Bool {
+func inRange(ownPosition: Position, target: Position, friendly: Position, range: Distance) -> Bool {
   let targetRegion = shift(ownPosition, difference(circle(range), circle(minimumDistance)))
   let friendlyRegion = shift(friendly, circle(minimumDistance))
   return difference(targetRegion, friendlyRegion)(target)

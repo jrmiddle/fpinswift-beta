@@ -11,8 +11,7 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>This doesn&#39;t scale very well though. What if we need to compute a <code>String</code> next? Do we need to define yet another higher-order function, expecting an argument of type <code>Int -&gt; String</code>?</p>
-<p>Luckily there is a solution to this problem: use <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Generics.html"><em>generics</em></a>. The definitions of <code>computeBoolArray</code> and <code>computeIntArray</code> are identical; the only difference is in the <em>type signature</em>. If we were to define another version, <code>computeStringArray</code>, the body of the fuction would be the same again. In fact, the same code will work for <em>any</em> type. What we&#39;d really want to do is write a single <em>generic</em> function once and for all, that will work for every possible type.</p>
+    <p>Now suppose we want an array of all the .swift files. This is easy to compute with a simple loop:</p>
 
   </section>
 </div>

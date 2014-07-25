@@ -11,10 +11,8 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>From now on, the <code>Region</code> type will refer to functions from a <code>Position</code> to a <code>Bool</code>. This isn&#39;t strictly necessary, but it can make some of the type signatures that we&#39;ll see below a bit easier to digest. </p>
-<p>Instead of defining an object or struct to represent regions, we represent a region by a <em>function</em> that determines if a given point is in the region or not. If you&#39;re not used to functional programming this may seem strange, but remember: functions in Swift are first-class values! We conciously choose the name <code>Region</code> for this type rather than something like <code>CheckInRegion</code> or <code>RegionBlock</code>. These names suggest that they denote a function type; yet the key philosophy underlying <em>functional programming</em> is that functions are values, no different from structs, Ints or Bools -- using a separate naming convention for functions would violate this philosophy. </p>
-<p>We will now write several functions that create, manipulate and combine regions. </p>
-<p>The first region we define is a <code>circle</code>, centered around the origin:</p>
+    <p>Note that, given a radius <code>r</code>, the call <code>circle(r)</code> <em>returns a function</em>. Here we use Swift&#39;s <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html">notation for closures</a> to construct the function that we wish to return. Given an argument position, <code>point</code>, we check that the <code>point</code> is in the region delimited by a circle of the given radius centered around the origin.</p>
+<p>Of course, not all circles are centered around the origin. We could add more arguments to the <code>circle</code> function to account for this. Instead, though, we will write a <em>region transformer:</em></p>
 
   </section>
 </div>

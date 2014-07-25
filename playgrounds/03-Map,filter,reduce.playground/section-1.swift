@@ -1,8 +1,8 @@
-func incrementArray (xs : Int[]) -> Int[] {
-    let result = Array(count:xs.count, repeatedValue: 0)
-    for i in 0 .. xs.count
+func computeIntArray (xs : [Int], f : Int -> Int) -> [Int] {
+    var result : [Int] = []
+    for x in xs
     {
-        result[i] = xs[i] + 1
+        result.append(f(x))
     }
     return result
 }

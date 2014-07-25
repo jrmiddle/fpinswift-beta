@@ -11,7 +11,7 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>Currently, the only attribute we support is fill color. It&#39;s very easy to add support for extra attributes, but we left that out for brevity. To draw a diagram with a <code>FillColor</code> attribute, we save the current graphics state, set the fill color, draw the diagram and finally restore the graphics state:</p>
+    <p>For rectangles, this is almost the same, except that we call a different Core Graphics function. You might note that the <code>frame</code> calculation is the same as for ellipses. It would be possible to pull this out and have a nested switch statement, but we think is is more readable when presenting in book-form.</p>
 
   </section>
 </div>

@@ -11,8 +11,11 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>The type of reduce is a bit hard to read at first. It is generic in two ways: for any <em>input array</em> of type <code>[A]</code> it will compute a result of type <code>R</code>. To do this, it needs an initial value of type <code>R</code> (to assign to the <code>result</code> variable) and a function <code>combine : (R,A) -&gt; R</code> that is used to update the result variable in the body of the for loop.  In some functional languages, such as OCaml and Haskell, <code>reduce</code> functions are called <code>fold</code> or <code>fold_right</code>.</p>
-<p>We can define every function we have seen in this chapter so far using <code>reduce</code>. Here are a few examples:</p>
+    <p>Now we can use all the ingredients we have seen in this chapter to write the following statement:</p>
+<pre><code>cities.filter({city in city.population &gt; 1000})
+      .map(scale)
+      .reduce(&quot;City : Population&quot;, {result, c in result + &quot;\n&quot; + &quot;\(c.name) : \(c.population)&quot; })
+</code></pre><p>We start by filtering out those cities that have less than one million inhabitants; we then map our <code>scale</code> function over the remaining cities; and finally, we compute a <code>String</code> with a list of city names and populations using the <code>reduce</code> function. Here we use the <code>map</code>, <code>filter</code> and <code>reduce</code> definitions from the Array <em>class</em> in Swift&#39;s standard library. As a result, we can chain together the results of our maps and filters nicely. The <code>cities.filter(..)</code> expression computes an Array, on which we call <code>map</code>; we call <code>reduce</code> on the result of this call to obtain our final result.</p>
 
   </section>
 </div>

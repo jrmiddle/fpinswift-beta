@@ -1,8 +1,9 @@
-func genericComputeArray<T> (xs : [Int], f : Int -> T) -> [T] {
-    var result : [T] = []
-    for x in xs
-    {
-        result.append(f(x))
+func getSwiftFiles(files: [String]) -> [String] {
+    var result : [String] = []
+    for file in files {
+        if file.hasSuffix(".swift") {
+            result.append(file)
+        }
     }
     return result
 }

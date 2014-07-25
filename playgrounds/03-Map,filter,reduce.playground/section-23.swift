@@ -1,1 +1,2 @@
-let exampleFiles = ["README.md", "HelloWorld.swift", "HelloSwift.swift", "FlappyBird.swift"]
+let xs = [1,2,3,4]
+sum(xs)

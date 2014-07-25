@@ -1,7 +1,3 @@
-func reduce<A,R>(arr : [A], initialValue: R, combine: (R,A) -> R) -> R {
-    var result = initialValue
-    for i in arr {
-        result = combine(result,i)
-    }
-    return result
+func scaleBy1000(city : City) -> City {
+    return City(name: city.name, population: city.population * 1000)
 }

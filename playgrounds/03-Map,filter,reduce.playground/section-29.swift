@@ -1,9 +1,7 @@
-func filter<T> (xs : [T], check : T -> Bool) -> [T] {
-    var result : [T] = []
+func prettyPrintArray (xs : [String]) -> String {
+    var result = "Entries in the array xs:\n"
     for x in xs {
-        if check(x) {
-            result.append(x)
-        }
+        result = "  " + result + x + "\n"
     }
     return result
 }

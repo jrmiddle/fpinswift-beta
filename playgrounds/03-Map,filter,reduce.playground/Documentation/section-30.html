@@ -11,11 +11,8 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>It is easy to define <code>getSwiftFiles</code> in terms of <code>filter</code>. Just like <code>map</code>, the <code>filter</code> function is defined in the Array class in Swift&#39;s standard library.</p>
-<p>Now you might wonder: is there an even more general purpose function that can be used to define <em>both</em> <code>map</code> and <code>filter</code>? In the last part of this chapter, we will answer that question.</p>
-<h3 id="reduce">Reduce</h3>
-<p>Once again, let&#39;s consider a few simple functions, before defining a generic function that captures the general pattern.</p>
-<p>It is straightforward to define a function that sums all the integers in an array:</p>
+    <p>What do all these functions have in common? They all initialize a variable, <code>result</code>, with some value. They proceed by iterating over all the elements of the input array <code>xs</code>, updating the result somehow. To define a generic function that can capture this pattern there are two pieces of information that we need to abstract over: the initial value assigned to the <code>result</code> variable; the <em>function</em> used to update the <code>result</code> in every iteration.</p>
+<p>With this in mind, we arrive at the following definition for the <code>reduce</code> function that captures this pattern:</p>
 
   </section>
 </div>

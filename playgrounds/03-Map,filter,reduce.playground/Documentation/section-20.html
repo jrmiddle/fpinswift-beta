@@ -11,8 +11,11 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>Once again, the definition of the function is not that interesting: given two arguments, <code>xs</code> and <code>f</code>, apply <code>map</code> to <code>(xs,f)</code> and return the result. The types are the most interesting thing about this definition. The <code>genericComputeArray</code> is an instance of the <code>map</code> function, it only has a more specific type.</p>
-<p>There is already a <code>map</code> method defined in the Swift standard library in the Array class. Instead of writing <code>map(xs,f)</code> for some array <code>xs</code> and function <code>f</code>, we can call the <code>map</code> function from the Array class by writing <code>xs.map(f)</code>. Here is an example definition of the <code>doubleArray</code> function using Swift&#39;s built-in <code>map</code> function:</p>
+    <p>It is easy to define <code>getSwiftFiles</code> in terms of <code>filter</code>. Just like <code>map</code>, the <code>filter</code> function is defined in the Array class in Swift&#39;s standard library.</p>
+<p>Now you might wonder: is there an even more general purpose function that can be used to define <em>both</em> <code>map</code> and <code>filter</code>? In the last part of this chapter, we will answer that question.</p>
+<h2 id="reduce">Reduce</h2>
+<p>Once again, let&#39;s consider a few simple functions, before defining a generic function that captures the general pattern.</p>
+<p>It is straightforward to define a function that sums all the integers in an array:</p>
 
   </section>
 </div>

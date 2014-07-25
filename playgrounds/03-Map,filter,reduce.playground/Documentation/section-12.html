@@ -11,8 +11,10 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>Unfortunately, this code gives a type error. The problem is that our <code>computeIntArray</code> function takes an argument of type <code>Int -&gt; Int</code>, function that computes a new integer. In the definition of <code>isEvenArray</code> we are passing an argument of type <code>Int -&gt; Bool</code> which causes the type error.</p>
-<p>How should we solve this? One thing we <em>could</em> do is define a new version of <code>computeIntArray</code> that expects takes a function argument of type <code>Int -&gt; Bool</code>. This might look something like this:</p>
+    <p>The point of this chapter is <em>not</em> to argue that you should define <code>map</code> yourself; we do want to argue that there is no magic involved in the definition of <code>map</code> -- you <em>could</em> have defined it yourself!</p>
+<h2 id="filter">Filter</h2>
+<p>The <code>map</code> function is not the only function in Swift&#39;s standard <code>Array</code> library that uses generics. In this section we will introduce a few others.</p>
+<p>Suppose we have an array containing Strings, representing the contents of a directory:</p>
 
   </section>
 </div>

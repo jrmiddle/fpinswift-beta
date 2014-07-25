@@ -1,6 +1,6 @@
 # Wrapping Core Image
 
-##### ⚠ this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes. ⚠
+####Note:  this chapter isn't copy-edited yet, so there's no need to file issues for things like spelling mistakes.
 
 Core Image is a powerful image processing framework, but its API can be a bit clunky to use at times. The Core Image API is loosely typed -- image filters are configured using key-value-coding. It is all too easy to make mistakes in the type or name of arguments, which can result in run-time errors.
 
@@ -177,5 +177,4 @@ let result2 = myFilter2(image)
 ```
 
 This example illustrates, once again, how we break complex code into small pieces, which can all be reassembled using function application.
-
 

@@ -1,3 +1,7 @@
-func doubleArray3 (xs : [Int]) -> [Int] {
-  return xs.map{x in 2 * x}
+func sum(xs : [Int]) -> Int {
+    var result : Int = 0
+    for x in xs {
+        result += x
+    }
+    return result
 }

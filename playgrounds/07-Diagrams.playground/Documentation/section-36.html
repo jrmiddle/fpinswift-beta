@@ -11,9 +11,7 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>We&#39;ve now defined the core of our library. All the other things can be built on top of these primitives.</p>
-<h3 id="wrapping-the-drawing-code-with-an-nsview-">Wrapping the drawing code with an <code>NSView</code></h3>
-<p>We can create a subclass of <code>NSView</code> that performs the drawing, which is very useful when working with playgrounds or when you want to draw these diagrams in Mac applications:</p>
+    <p>The case for <code>Below</code> is exactly the same, except that we split the <code>CGRect</code> vertically instead of horizontally. This code was written to run on the Mac, and therefore the order is <code>bottom</code> and <code>top</code> (unlike UIKit, the Cocoa coordinate system has the origin at the bottom left).</p>
 
   </section>
 </div>

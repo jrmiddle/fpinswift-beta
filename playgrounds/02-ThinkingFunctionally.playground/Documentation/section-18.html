@@ -11,8 +11,7 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>The call <code>shift(offset, region)</code> moves the region to the right and up by <code>offet.x</code> and <code>offset.y</code> respectively. How is it implemented? Well we need to return a <code>Region</code>, that is a function from points to <code>Bool</code>. To do this, we start writing another closure, introducing the point we need to check. From this point, we compute a new point with the coordinates <code>point.x - offset.x</code> and <code>point.y - offset.y</code>. Finally, we check that this new point is in the <em>original</em> region by passing it as an arguments to the <code>region</code> function.</p>
-<p>Interestingly, there are lots of other ways to transform existing regions. For instance, we may want to define a new region by inverting a region. The resulting region consists of all the points outside the original region:</p>
+    <p>We can also write functions that combine existing regions into larger, complex regions. For instance, these two functions take the points that are in <em>both</em> argument regions or <em>either</em> argument region, respectively:</p>
 
   </section>
 </div>
