@@ -34,7 +34,8 @@ To make our lives a bit easier, we'll extend the `CIFilter` class with a conveni
 ```swift
 extension CIFilter {
 
-    class func filter(name: String, parameters: Dictionary<String, AnyObject>) -> CIFilter {
+    class func filter(name: String, parameters: Dictionary<String, AnyObject>) -> 
+               CIFilter {
         let filter = self(name: name)
         filter.setDefaults()
         for (key, value : AnyObject) in parameters {
@@ -60,7 +61,8 @@ The gaussian blur filter only has the blur radius as parameter. Therefore we can
 ```swift
 func blur(radius: Double) -> Filter {
     return { image in
-        let filter = CIFilter.filter("CIGaussianBlur", parameters: [kCIInputRadiusKey: radius, kCIInputImageKey: image])
+        let parameters = [kCIInputRadiusKey: radius, kCIInputImageKey: image]
+        let filter = CIFilter.filter("CIGaussianBlur", parameters: parameters)
         return filter.outputImage
     }
 }
@@ -80,7 +82,8 @@ The two building blocks we're going to use for this is the color generator filte
 ```swift
 func colorGenerator(color: NSColor) -> Filter {
     return { _ in
-        let filter = CIFilter.filter("CIConstantColorGenerator", parameters: [kCIInputColorKey: color])
+        let filter = CIFilter.filter("CIConstantColorGenerator", 
+                                     parameters: [kCIInputColorKey: color])
         return filter.outputImage
     }
 }
@@ -93,7 +96,9 @@ Next, we're going to define the composite filter:
 ```swift
 func compositeSourceOver(overlay: CIImage) -> Filter {
     return { image in
-        let filter = CIFilter.filter("CISourceOverCompositing", parameters: [kCIInputBackgroundImageKey: image, kCIInputImageKey: overlay])
+        let parameters = [kCIInputBackgroundImageKey: image, kCIInputImageKey: overlay]
+        let filter = CIFilter.filter("CISourceOverCompositing", 
+                                     parameters: parameters)
         return filter.outputImage.imageByCroppingToRect(image.extent())
     }
 }
@@ -177,4 +182,5 @@ let result2 = myFilter2(image)
 ```
 
 This example illustrates, once again, how we break complex code into small pieces, which can all be reassembled using function application.
+
 

@@ -46,7 +46,7 @@ Now, if we run QuickCheck on this function, we will get a failing test case:
 ```
 check("Minus should be commutative", minusIsCommutative)
 
-> "Minus should be commutative" doesn't hold: (0, 1)
+> "Minus should be commutative" doesn't hold: (0, 4)
 > ()
 ```
 
@@ -88,10 +88,10 @@ Now we can generate random integers like this:
 ```
 Int.arbitrary()
 
-> 2130261528
+> 3657731082
 ```
 
-To generate random strings, we need to do a little bit more work. First, we generate a random length `x` between 0 and 100. Then, we generate `x` random characters, and reduce them into a string. 
+To generate random strings, we need to do a little bit more work. First, we generate a random length `x` between 0 and 100. Then, we generate `x` random characters, and reduce them into a string. Note that we currently only generate capital letters as random characters, a real implementation would generate any kind of character.
 
 ```swift
 
@@ -119,7 +119,7 @@ We can call it in the same way as we generate random `Int`s, except, that we cal
 ```
 String.arbitrary()
 
-> IQNOLWSUVRUHPSMMHVTKYLDONUPA
+> HPWOATXPRKKABFMJANVADYLEACBXKEEFSHOCLVJFULFGSJNTVAASEQYKSCNAYROTNFVILEOYAAAXYSQJHYFVTKXNXWWXRAGSOJL
 ```
 
 ### Implementing the `check` function
@@ -161,7 +161,7 @@ If we run our `check1` function on strings, we might get quite a long failure me
 ```
 check1("Every string starts with Hello") {(s: String) in s.hasPrefix("Hello")}
 
-> "Every string starts with Hello" doesn't hold: KEPFLPLWGHDDKMGYYDHQJOLBOSWGBUODYABKIRNN
+> "Every string starts with Hello" doesn't hold: LMDFXMQGSFDBAJNLPEUFWTCCNNBECMKVLAQEVNKGW
 > ()
 ```
 
@@ -316,7 +316,8 @@ struct ArbitraryI<T> {
 We can now write a helper function that takes such an `ArbitraryI` struct as an argument. The definition of `checkHelper` closely follows the `check2` function we saw previously. The only difference between the two is where the `arbitrary` and `smaller` functions are defined. In `check2` these were constraints on the generic type, `<A : Arbitrary>`; in `checkHelper` they are passed explicitly in the `ArbitraryI` struct:
 
 ```swift
-func checkHelper<A>(arbitraryInstance: ArbitraryI<A>, prop: A -> Bool, message: String) -> () {
+func checkHelper<A>(arbitraryInstance: ArbitraryI<A>, 
+                    prop: A -> Bool, message: String) -> () {
     for _ in 0..<numberOfIterations {
         let value = arbitraryInstance.arbitrary()
         if !prop(value) {
@@ -344,7 +345,8 @@ If we have a type for which we cannot define the desired `Arbitary` instance, li
 
 ```swift
 func check<X : Arbitrary>(message: String, prop : [X] -> Bool) -> () {
-    let instance = ArbitraryI(arbitrary: arbitraryArray, smaller: { (x: [X]) in x.smaller() })
+    let instance = ArbitraryI(arbitrary: arbitraryArray, 
+                              smaller: { (x: [X]) in x.smaller() })
     checkHelper(instance, prop, message)
 }
 ```

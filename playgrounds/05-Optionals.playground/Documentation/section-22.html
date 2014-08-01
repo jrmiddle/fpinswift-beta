@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 23</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The choice of operator, <code>&gt;&gt;=</code>, name is no coincidence. Swift&#39;s optional types are an example of a <em>monad</em>, similar to Haskell&#39;s <code>Maybe</code> type. We will call a type that expects a generic argument a <em>type constructor</em>. For example, the array type expects an additional generic argument in order to be well-formed; <code>Array&lt;T&gt;</code> or <code>Array&lt;Int&gt;</code> are valid types, but <code>Array</code> by itself is not. A monad is a type constructor <code>M</code> that supports a pair of functions with the following types:</p>
+<pre><code>  func return&lt;U&gt; (x : U) -&gt; M&lt;U&gt;
+
+  @infix func &gt;&gt;= &lt;U,T&gt; (x : M&lt;T&gt;, f : T -&gt; M&lt;U&gt;) -&gt; M&lt;U&gt;
+</code></pre><p>Although we haven&#39;t defined the <code>return</code> function for optionals, it is trivial to do so.</p>
+<p>We do not want to advocate that <code>&gt;&gt;=</code> is &#39;right&#39; way to combine optional values, or that you need to understand monads to work with Swift&#39;s optionals. Instead we hope to show that optionals are not a new idea. They have successfully been used in other languages for many years. The optional binding mechanism captures just the right pattern for writing most functions over optionals -- and for good reason: it corresponds to the <code>&gt;&gt;=</code> operation of the optional monad.</p>
+<h2 id="why-optionals-">Why Optionals?</h2>
+<p>What&#39;s the point of introducing an explicit optional type? For programmers used to Objective C, working with optional types may seem strange at first. The Swift type system is rather rigid: whenever we have an optional type, we have to deal with the possibility of it being <code>nil</code>. We have had to write new functions like <code>map</code> to manipulate optional values. In Objective C, you have more flexibility. For instance, when we translate the example above to Objective C, there is no compiler error:</p>
+<pre><code class="lang-objc">- (int)populationOfCapital:(NSString *)country {
+    return [self.cities[self.capitals[country]] intValue] * 1000;
+}
+</code></pre>
+<p>We can pass in the nil for the name of a country, and we get back a result of <code>0.0</code>. Everything is fine. In many languages without optionals, null pointers are a source of danger. Much less so in Objective-C. In Objective-C, you can safely send messages to nil, and depending on the return type, you either get nil, 0, or similar &quot;zero-like&quot; values. Why change this behavior in Swift?</p>
+<p>The choice for an explicit optional type fits with the increased static safety of Swift. A strong type system catches errors before code is executed; automatic memory allocation and garbage collection limits the possibility for memory leaks; an explicit optional type helps protects you from unexpected crashes arising from nil values.</p>
+<p>The default &quot;zero-like&quot; behaviour employed by Objective-C has its drawbacks. You may want to distinguish between failure (a key is not in the dictionary) and success-returning-zero (a key is in the dictionary, but associated with 0). Furthermore, the behavior is not available to all types: you cannot have an integer that might be nil without wrapping it in a class like <code>NSNumber</code>.</p>
+<p>While it is safe in Objective-C to send messages to nil, it is often not safe to use them. Let&#39;s say we want to create an attributed string. If we pass in nil as the argument for <code>country</code>, the <code>capital</code> will also be nil, but <code>NSAttributedString</code> will crash when trying to initialize it with a nil value.</p>
+<pre><code class="lang-objective-c">- (NSAttributedString *)attributedCapital:(NSString*)country {
+    NSString *capital = self.capitals[country];
+    return [[NSAttributedString alloc] initWithString:capital 
+                                           attributes:self.capitalAttributes];
+}
+</code></pre>
+<p>While crashes like that don&#39;t happen too often, almost every developer had code like this crash. Most of the time, these crashes are detected during debugging, but it is very possible to ship code without noticing that in some cases a variable might unexpectedly be nil. Therefore, many programmers use asserts to verify this behavior. For example, we can add a <code>NSParameterAssert</code> to make sure we crash quickly when the <code>country</code> is nil:</p>
+<pre><code class="lang-objective-c">- (NSAttributedString *)attributedCapital:(NSString*)country {
+    NSParameterAssert(country);
+    NSString *capital = self.capitals[country];
+    return [[NSAttributedString alloc] initWithString:capital 
+                                           attributes:self.capitalAttributes];
+}
+</code></pre>
+<p>Now, when we pass in a country value that is nil, the assert fails immediately, and we are almost certain to hit this during debugging. But what if we pass in a <code>country</code> value that doesn&#39;t have a matching key in <code>self.capitals</code>? This is much more likely, especially when <code>country</code> comes from user input. In that case, <code>capital</code> will be nil and our code will still crash. Of course, this can be fixed easily enough. The point is, however, that it is easier to write <em>robust</em> code using nil in Swift than in Objective-C.</p>
+<p>Finally, using these assertions is inherently non-modular. Suppose we implement a <code>checkCountry</code> method, that checks that a non-nil <code>NSString*</code> is supported. We can incorporate this check easily enough:</p>
+<pre><code class="lang-objective-c">- (NSAttributedString *)attributedCapital:(NSString*)country {
+    NSParameterAssert(country);
+    if (checkCountry(country))
+    ...
+}
+</code></pre>
+<p>Now the question arises: should the <code>checkCountry</code> function also assert that its argument is non-nil. On the one hand, it should not: we have just performed the check in the <code>attributedCapital</code> method. On the other hand, if the <code>checkCountry</code> function only works on non-nil values, we should duplicate the assertion. We are forced to choose between exposing an unsafe interface or duplicating assertions.</p>
+<p>In Swift, things are quite a bit better. Function signatures using optionals explicitly state which values may be nil. This is invaluable information when working with other people&#39;s code. A signature like the following provides a lot of information:</p>
+
+  </section>
+</div>
+</body>
+</html>

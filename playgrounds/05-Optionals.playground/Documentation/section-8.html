@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 9</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>If the lookup, <code>cities[&quot;Madrid&quot;]</code>, is succesful we can use the variable <code>madridPopulation : Int</code> may be used in the then branch. Note that we no longer need to explicitly use the forced unwrapping operator.</p>
+<p>Given the choice, we&#39;d recommend using option binding over forced unwrapping. Forced unwrapping may crash if you have a <code>nil</code> value; option binding encourages you to handle exceptional cases explicitly, avoiding run-time errors. Unchecked usage of the forced unwrapping of optional types is a bad code smell. Similarly, Swift&#39;s mechanism for <a href="https://developer.apple.com/library/prerelease/mac/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html">implicitly unwrapped optionals</a> is also unsafe and should be avoided whenever possible.</p>
+<h2 id="combining-optional-values">Combining optional values</h2>
+<p>Swift&#39;s optional values make the possibility of failure explicit. This can be cumbersome, especially when combining several optional results. There are several techniques to facilitate the use of optionals.</p>
+<h3 id="optional-chaining">Optional chaining</h3>
+<p>First of all, Swift has a special mechanism, <em>optional chaining</em>, for selecting methods or attributes in nested classes or structs. Consider the following (fragment of) a model for processing customer orders:</p>
+<pre><code>struct Order {
+    let orderNumber : Int
+    let person : Person?
+    ...
+}
+
+struct Person {
+    let name : String
+    let address : Address?
+    ...
+}
+
+struct Address{
+    let streetName : String
+    let city : String
+    let state : String?
+    ...
+}
+</code></pre><p>Given an <code>Order</code>, how can we find the state of the customer? We could use the explicit unwrapping operator:</p>
+<pre><code>order.person!.address!.state!
+</code></pre><p>Doing so, however, may cause run-time exceptions if any of the intermediate data is missing. It would be much safer to use option binding:</p>
+<pre><code>if let myPerson = order.person in {
+  if let myAddress = myPerson.address in {
+    if let myState = myAddress.state in {
+    ...
+</code></pre><p>But this is rather verbose. Using optional chaining, this example would become:</p>
+<pre><code>if let myState = order.person?.address?.state? {
+  print(&quot;This order will be shipped to \(myState\)&quot;)
+}
+else {
+  print(&quot;Unknown person, address, or state.&quot;)
+</code></pre><p>Instead of forcing the unwrapping of intermediate types, we use the question mark operator to try and unwrap the optional types. When any of the component selections fails, the whole chain of selection statements returns <code>nil</code>.</p>
+<h3 id="maps-and-monads">Maps and monads</h3>
+<p>The <code>?</code> operator lets us select methods or fields of optional values. There are plenty of other examples, however, where you may want to manipulate an optional value, if it exists, and return <code>nil</code> otherwise. Consider the following example:</p>
+
+  </section>
+</div>
+</body>
+</html>

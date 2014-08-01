@@ -14,7 +14,7 @@ We'll introduce first-class functions using the example of an algorithm you woul
 
 As a first approximation, you might write a very simple function that checks whether or not a point is in range. For the sake of simplicity, we will assume that our ship is located at the origin. We can visualize the region we want to describe as follows:
 
-![](battleship-1.png)
+![](battleship-1.pdf)
 
 The first function we write, `inRange1` checks when a point is in the grey area in the picture above. Using some basic geometry, we can write this function as follows:
 
@@ -33,7 +33,7 @@ Note that we are using Swift's [typealias](https://developer.apple.com/library/p
 
 Now this works fine, if you assume that the we are always located at the origin. Suppose the ship may be at a location, `ownposition`, other than the origin. We can update our visualization to look something like this:
 
-![](battleship-2.png)
+![](battleship-2.pdf)
 
 
 We now add an argument representing the location of the ship to our `inRange` function:
@@ -48,7 +48,7 @@ func inRange2(target: Position, ownPosition: Position, range: Distance) -> Bool 
 
 But now you realize that you also want to avoid targeting ships if they are too close to yourself. We can update our picture to illustrate the new situation, where we want to target only those enemies that are at least `minD` away from our current position:
 
-![](battleship-3.png)
+![](battleship-3.pdf)
 
 As a result, we need to modify our code again:
 
@@ -65,19 +65,20 @@ func inRange3(target: Position, ownPosition: Position, range: Distance) -> Bool 
 
 Finally, you also need to avoid targeting ships that are too close to one of your other ships. We can visualize this by as follows:
 
-![](battleship-4.png)
+![](battleship-4.pdf)
 
 Correspondingly, we can add a further argument that represents the location of a friendly ship to our `inRange` function:
 
 ```swift
-func inRange4(target: Position, ownPosition: Position, friendly: Position, range: Distance) -> Bool {
+func inRange4(target: Position, ownPosition: Position, 
+              friendly: Position, range: Distance) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    let friendlyDx = friendly.x - target.x
    let friendlyDy = friendly.y - target.y
    return sqrt(dx * dx + dy * dy) <= range
           && sqrt(dx * dx + dy * dy) >= minimumDistance
-          && !(sqrt(friendlyDx * friendlyDx + friendlyDy * friendlyDy) >= minimumDistance)
+          && (sqrt(friendlyDx * friendlyDx + friendlyDy * friendlyDy) >= minimumDistance)
 }
 ```
 
@@ -164,8 +165,10 @@ This example shows how Swift lets you compute and pass around functions no diffe
 Now let's turn our attention back to our original example. With this small library in place, we can now refactor the complicated `inRange` function as follows:
 
 ```swift
-func inRange(ownPosition: Position, target: Position, friendly: Position, range: Distance) -> Bool {
-  let targetRegion = shift(ownPosition, difference(circle(range), circle(minimumDistance)))
+func inRange(ownPosition: Position, target: Position, 
+             friendly: Position, range: Distance) -> Bool {
+  let targetRegion = shift(ownPosition, difference(circle(range), 
+                           circle(minimumDistance)))
   let friendlyRegion = shift(friendly, circle(minimumDistance))
   return difference(targetRegion, friendlyRegion)(target)
 }

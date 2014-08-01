@@ -5,7 +5,7 @@ Map, filter, reduce
 
 ## What this chapter is about
 
-First-class functions are prevalent in Swift's standard library. Functions that take functions as arguments are sometimes called *higher-order* functions. In this chapter, we will tour some of the higher-order functions functions on Arrays and Dictionaries from the Swift standard library. By doing so, we will introduce Swift's *generics*, which we illustrate by writing a small library inspired by C#'s Language Integrated Queries (LINQ).
+First-class functions are prevalent in Swift's standard library. Functions that take functions as arguments are sometimes called *higher-order* functions. In this chapter, we will tour some of the higher-order functions functions on Arrays from the Swift standard library. By doing so, we will introduce Swift's *generics* and show how to write assemble complex computations on arrays.
 
 ## Introducing generics
 
@@ -127,7 +127,7 @@ func map<T,U> (xs : [T], f : T -> U) -> [U] {
 Here we have written a function `map` that is generic in two dimensions: for any array of `T`s and function `f : T -> U`, it will produce a new array of `U`s. This `map` function is even more generic than the `genericComputeArray` function we have seen so far. In fact, we can define `genericComputeArray` in terms of `map`:
 
 ```swift
-func genericComputeArray2<T> (xs : [Int], f : Int -> T) -> [T] {
+func computeIntArray<T> (xs : [Int], f : Int -> T) -> [T] {
        return map(xs,f)
 }
 ```
@@ -152,7 +152,8 @@ The `map` function is not the only function in Swift's standard `Array` library 
 Suppose we have an array containing Strings, representing the contents of a directory:
 
 ```swift
-let exampleFiles = ["README.md", "HelloWorld.swift", "HelloSwift.swift", "FlappyBird.swift"]
+let exampleFiles = ["README.md", "HelloWorld.swift", 
+                    "HelloSwift.swift", "FlappyBird.swift"]
 ```
 
 Now suppose we want an array of all the .swift files. This is easy to compute with a simple loop:
@@ -277,15 +278,15 @@ We can define every function we have seen in this chapter so far using `reduce`.
 
 ```swift
 func sumUsingReduce (xs : [Int]) -> Int {
-  return reduce(xs, 0) {result, x in x + result}
+  return reduce(xs, 0) {result, x in result + x}
   }
 
 func productUsingReduce (xs : [Int]) -> Int {
-  return reduce(xs, 1) {result, x in x * result}
+  return reduce(xs, 1) {result, x in result * x}
   }
 
 func concatUsingReduce (xs : [String]) -> String {
-  return reduce (xs, "") {result, x in x + result}
+  return reduce (xs, "") {result, x in result + x}
   }
 ```
 
@@ -329,18 +330,19 @@ let cities = [paris, madrid, amsterdam, berlin]
 Now suppose we would like to print a list of cities with at least one million inhabitants, together with their total population. We can define a helper function that scales up the inhabitants:
 
 ```swift
-func scaleBy1000(city : City) -> City {
+func scale(city : City) -> City {
     return City(name: city.name, population: city.population * 1000)
 }
 ```
 
 Now we can use all the ingredients we have seen in this chapter to write the following statement:
 
-
 ```swift
 cities.filter({city in city.population > 1000})
       .map(scale)
-      .reduce("City : Population", {result, c in result + "\n" + "\(c.name) : \(c.population)" })
+      .reduce("City : Population", 
+         {result, c in result + "\n" + "\(c.name) : \(c.population)" }
+       )
 ```
 
 We start by filtering out those cities that have less than one million inhabitants; we then map our `scale` function over the remaining cities; and finally, we compute a `String` with a list of city names and populations using the `reduce` function. Here we use the `map`, `filter` and `reduce` definitions from the Array *class* in Swift's standard library. As a result, we can chain together the results of our maps and filters nicely. The `cities.filter(..)` expression computes an Array, on which we call `map`; we call `reduce` on the result of this call to obtain our final result.
