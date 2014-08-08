@@ -1,9 +1,10 @@
-func inRange4(target: Position, ownPosition: Position, friendly: Position, range: Distance) -> Bool {
+func inRange4(target: Position, ownPosition: Position, 
+              friendly: Position, range: Distance) -> Bool {
    let dx = ownPosition.x - target.x
    let dy = ownPosition.y - target.y
    let friendlyDx = friendly.x - target.x
    let friendlyDy = friendly.y - target.y
    return sqrt(dx * dx + dy * dy) <= range
           && sqrt(dx * dx + dy * dy) >= minimumDistance
-          && !(sqrt(friendlyDx * friendlyDx + friendlyDy * friendlyDy) >= minimumDistance)
+          && (sqrt(friendlyDx * friendlyDx + friendlyDy * friendlyDy) >= minimumDistance)
 }

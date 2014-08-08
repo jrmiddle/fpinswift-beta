@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 15</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>Once again, we return a function that takes an image parameter as its argument. The <code>colorOverlay</code> starts by calling the <code>colorGenerator</code> filter. The <code>colorGenerator</code> filter requires a <code>color</code> as its argument and returns a filter; hence the code snippet <code>colorGenerator(color)</code> has type <code>Filter</code>. The <code>Filter</code> type, however, is itself a function from <code>CIImage</code> to <code>CIImage</code>; we can pass an <em>additional</em> argument of type <code>CIImage</code> to <code>colorGenerator(color)</code> to compute a new overlay <code>CIImage</code>. This is exactly what happens in the definition of <code>overlay</code> -- we create a filter using the <code>colorGenerator</code> function and pass the <code>image</code> argument to this filter to create a new image. Similarly, the value returned, <code>compositeSourceOver(overlay)(image)</code>, consists of a filter being constructed, <code>compositeSourceOver(overlay)</code>, and subsequently being applied to the <code>image</code> argument.</p>
+<h2 id="composing-filters">Composing Filters</h2>
+<p>Now that we have a blur and a color overlay filter defined, we can put them to use on an actual image in a combined way: first we blur the image and then we put a red overlay on top. Let&#39;s load an image to work on:</p>
+
+  </section>
+</div>
+</body>
+</html>

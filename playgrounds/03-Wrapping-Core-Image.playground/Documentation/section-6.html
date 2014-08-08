@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 7</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The convenience initializer takes the name of the filter and a dictionary as parameters. The key-value pairs in the dictionary will be set as parameters on the new filter object. Our convenience initializer follows the Swift pattern of calling the designated initializer first.</p>
+<p>The <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html#//apple_ref/doc/uid/TP40014097-CH14-XID_329">computed property</a> <code>outputImage</code> provides an easy way to retrieve the output image from the filter object. It looks up the <code>kCIOutputImageKey</code> key in and casts the result to a value of type <code>CIImage</code>. By providing this computed property of type <code>CIImage</code>, users of our API no longer need to cast the result of such a lookup operation themselves.</p>
+<h3 id="blur">Blur</h3>
+<p>With these pieces in place, we can define our first simple filters. The gaussian blur filter only has the blur radius as parameter. Therefore we can write a blur <code>Filter</code> very easily:</p>
+
+  </section>
+</div>
+</body>
+</html>

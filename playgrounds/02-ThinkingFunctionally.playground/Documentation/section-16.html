@@ -11,8 +11,8 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>The call <code>shift(offset, region)</code> moves the region to the right and up by <code>offet.x</code> and <code>offset.y</code> respectively. How is it implemented? Well we need to return a <code>Region</code>, that is a function from points to <code>Bool</code>. To do this, we start writing another closure, introducing the point we need to check. From this point, we compute a new point with the coordinates <code>point.x - offset.x</code> and <code>point.y - offset.y</code>. Finally, we check that this new point is in the <em>original</em> region by passing it as an arguments to the <code>region</code> function.</p>
-<p>Interestingly, there are lots of other ways to transform existing regions. For instance, we may want to define a new region by inverting a region. The resulting region consists of all the points outside the original region:</p>
+    <p>Note that, given a radius <code>r</code>, the call <code>circle(r)</code> <em>returns a function</em>. Here we use Swift&#39;s <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html">notation for closures</a> to construct the function that we wish to return. Given an argument position, <code>point</code>, we check that the <code>point</code> is in the region delimited by a circle of the given radius centered around the origin.</p>
+<p>Of course, not all circles are centered around the origin. We could add more arguments to the <code>circle</code> function to account for this. Instead, though, we will write a <em>region transformer:</em></p>
 
   </section>
 </div>

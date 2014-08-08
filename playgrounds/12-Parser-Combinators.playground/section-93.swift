@@ -1,0 +1,1 @@
+let number = pure({ characters in string(characters).toInt()! }) <*> many1(decimalDigit)

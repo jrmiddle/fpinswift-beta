@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 21</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The <code>find</code> function is generic over any possible generator. The most interesting thing about it, is its type signature. The <code>find</code> function takes two arguments: a generator and a predicate. The generator may be modified by the find function, resulting from the calls to <code>next</code>, and hence we need to add the <code>var</code> attribute in the type declaration. The predicate should be a function mapping generated elements to <code>Bool</code>. We can refer to the generator&#39;s associated type as <code>G.Element</code> in the type signature of <code>find</code>. Finally, note that we may not succeed finding a value that satisfies the predicate. For that reason, <code>find</code> returns optional value, returning nil when the generator is exhausted.</p>
+<p>It is also possible to combine generators on top of one another. For example, you may want to limit the number of items generated, buffer the generated values, or encrypt the data generated somehow. Here is one simple example of a generator transformer that produces at most <code>limit</code> values from its argument generator:</p>
+
+  </section>
+</div>
+</body>
+</html>

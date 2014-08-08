@@ -1,0 +1,1 @@
+testParser(parseCharacter("t"), "test")

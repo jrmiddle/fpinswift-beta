@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 40</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>func iterateWhile<A>(condition: A -&gt; Bool, initialValue: A, next: A -&gt; A?) -&gt; A {
+    if let x = next(initialValue) {
+        if condition(x) {
+           return iterateWhile(condition,x,next)
+        }
+    }
+    return initialValue
+}</p>
+
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 37</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The function arrow, <code>-&gt;</code>, associates to the right. That is to say, you can read the type <code>A -&gt; B -&gt; C</code> as <code>A -&gt; (B -&gt; C)</code>. Throughout this book, however, we will typically introduce a typealias for functional types (as we did for the <code>Region</code> and <code>Filter</code> types) or write explicit parentheses.</p>
+<h2 id="discussion">Discussion</h2>
+<p>This example illustrates, once again, how we break complex code into small pieces, which can all be reassembled using function application. The goal of this chapter was not to define a complete API around Core Image, but instead to sketch how higher-order functions and function composition can be used in a more practical case study.</p>
+<p>Why go through all this effort? The Core Image API is already mature and provides all the functionality you might need. We believe there are several advantages to the API designed in this chapter:</p>
+<ul>
+<li><strong>Safety</strong> -- using the API we have sketched, it is almost impossible to create runtime errors arising from undefined keys or failed casts.</li>
+<li><strong>Modularity</strong> -- it is easy to compose filters using the <code>|&gt;</code> operator. Doing so allows you to tease apart complex filters into smaller, simpler, reusable components.</li>
+<li><strong>Clarity</strong> -- even if you have never used Core Image, you should be able to assemble simple filters using the functions we have defined. You don&#39;t need to know about special dictionary keys to access the results, such as <code>kCIOutputImageKey</code>, or worry about initialising certain keys, such as <code>kCIInputImageKey</code> or <code>kCIInputRadiusKey</code>. From the types alone, you can almost figure out how to use the API, even without further documentation.</li>
+</ul>
+<p>Our API presents a series of functions that can be used to define and compose filters. Any filters that you define are safe to use and reuse. Each filter can be tested and understood in isolation. We believe these are compelling reasons to favor the design sketched here over the original Core Image API. </p>
+
+  </section>
+</div>
+</body>
+</html>

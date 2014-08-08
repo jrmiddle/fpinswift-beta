@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 1</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <h1 id="wrapping-core-image">Wrapping Core Image</h1>
+<p>NOTE: this chapter isn&#39;t copy-edited yet, so there&#39;s no need to file issues for things like spelling mistakes.</p>
+<h2 id="what-this-chapter-is-about">What this chapter is about</h2>
+<p>The previous chapter introduced the concept of <em>higher-order function</em> and showed how functions can be passed as arguments to other functions. The example, however, may seem far removed from the &#39;real&#39; code that you write on a daily basis. In this chapter, we will show how to use higher-order functions to write a small, functional wrapper around an existing, object-oriented API.</p>
+<p>Core Image is a powerful image processing framework, but its API can be a bit clunky to use at times. The Core Image API is loosely typed -- image filters are configured using key-value-coding. It is all too easy to make mistakes in the type or name of arguments, which can result in run-time errors. The new API we develop will be safe and modular, exploiting <em>types</em> to guarantee the absence of runtime errors.</p>
+<p>Don&#39;t worry if you&#39;re unfamiliar with Core Image or cannot understand all details of the code fragments in this chapter. The goal isn&#39;t too build a complete wrapper around Core Image, but instead to illustrate how concepts from functional programming, such as higher-order functions, can be applied in production code.</p>
+<h2 id="the-filter-type">The Filter Type</h2>
+<p>One of the key classes in Core Image is the <code>CIFilter</code> class, used to create image filters. When you instantiate a <code>CIFilter</code> object, you (almost) always provide an input image via the <code>kCIInputImageKey</code> key and then retrieve the filtered result via the <code>kCIOutputImageKey</code> key. Then you can use this result as input for the next filter. </p>
+<p>In the API we will develop in this chapter, we&#39;ll try to encapsulate the exact details of these keys-value pairs and present a safe, strongly-typed API to our users. We define our own <code>Filter</code> type as a function that takes an image as parameter and returns a new image:</p>
+
+  </section>
+</div>
+</body>
+</html>

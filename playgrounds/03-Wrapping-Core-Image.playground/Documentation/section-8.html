@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 9</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>That&#39;s all there is to it. The <code>blur</code> function returns a function that takes an argument <code>image</code> of type <code>CIImage</code> and returns a new image (<code>return filter.outputImage</code>). Therefore the return value of the <code>blur</code> function conforms to the <code>Filter</code> type we have defined previously as <code>CIImage -&gt; CIImage</code>.</p>
+<p>This example is just a thin wrapper around a filter that already exists in Core Image. We can use the same pattern over and over again to create our own filter functions.</p>
+<h3 id="color-overlay">Color Overlay</h3>
+<p>Let&#39;s define a filter that overlays an image with a solid color of our choice. Core Image doesn&#39;t have such a filter by default, but we can of course compose it from existing filters.</p>
+<p>The two building blocks we&#39;re going to use for this is the color generator filter (<code>CIConstantColorGenerator</code>) and the source over compositing filter (<code>CISourceOverCompositing</code>). Let&#39;s first define a filter to generate a constant color plane:</p>
+
+  </section>
+</div>
+</body>
+</html>

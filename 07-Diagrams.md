@@ -212,7 +212,7 @@ For example, if we fit and center square of 1x1 into a rectangle of 200x100, we 
 ```
 fit(Vector2D(x: 0.5, y: 0.5), CGSizeMake(1,1), CGRectMake(0,0,200,100))
 
-> (50.0,0.0,100.0,100.0)
+
 ```
 
 To align the rectangle to the left, we would do the following:
@@ -220,7 +220,7 @@ To align the rectangle to the left, we would do the following:
 ```
 fit(Vector2D(x: 0, y: 0.5), CGSizeMake(1,1), CGRectMake(0,0,200,100))
 
-> (0.0,0.0,100.0,100.0)
+
 ```
 
 Now that we can represent diagrams and calculate their sizes, we're ready to draw them. We use pattern matching to make it easy to know what to draw. The `draw` method takes a couple of parameters: the context to draw in, the bounds to draw in and the actual diagram. Given the bounds, the diagram will try to fit itself into the bounds using the `fit` function defined before. For example, when we draw an ellipse, we center it and make it fill the available bounds: 
@@ -313,6 +313,10 @@ class Draw : NSView {
         super.init(frame:frameRect)
     }
 
+    required init(coder: NSCoder) {
+        fatalError("NSCoding not supported")
+    }
+
     override func drawRect(dirtyRect: NSRect) {
         draw(NSGraphicsContext.currentContext().cgContext, self.bounds, diagram)
     }
@@ -359,13 +363,13 @@ func square(#side: CGFloat) -> Diagram {
 Also, it turns out that it's very convenient to have operators for combining diagrams horizontally and vertically, making the code more readable. They are just wrappers around `Beside` and `Below`.
 
 ```swift
-operator infix ||| { associativity left }
-@infix func ||| (l: Diagram, r: Diagram) -> Diagram {
+infix operator ||| { associativity left }
+func ||| (l: Diagram, r: Diagram) -> Diagram {
     return Diagram.Beside(l, r)
 }
 
-operator infix --- { associativity left }
-@infix func --- (l: Diagram, r: Diagram) -> Diagram {
+infix operator --- { associativity left }
+func --- (l: Diagram, r: Diagram) -> Diagram {
     return Diagram.Below(l, r)
 }
 ```

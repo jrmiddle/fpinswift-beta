@@ -168,14 +168,18 @@ Now let's turn our attention back to our original example. With this small libra
 func inRange(ownPosition: Position, target: Position, 
              friendly: Position, range: Distance) -> Bool {
   let targetRegion = shift(ownPosition, difference(circle(range), 
-                           circle(minimumDistance)))
+                                        circle(minimumDistance)))
   let friendlyRegion = shift(friendly, circle(minimumDistance))
-  return difference(targetRegion, friendlyRegion)(target)
+  let resultRegion = difference(targetRegion, friendlyRegion)
+  return resultRegion(target)
 }
 ```
 
+This code defines two regions, `targetRegion` and `friendlyRegion`. The region that we're interested in is computed by taking difference between these regions. By applying this region to the `target` argument, we can compute the desired boolean.
+
 The way we've defined the `Region` type does have its disadvantages. In particular, we cannot inspect *how* a region was constructed: is it composed of smaller regions? Or is it simply a circle around the origin? The only thing we can do is to check whether or not a given point is within a region or not. If we would want to visualize a region, we would have to sample enough points to generate a (black and white) bitmap. 
 
+In [later chapters](TODO Forward reference) we will sketch an alternative design that will let you answer these questions. 
 
 
 ## Type-driven development

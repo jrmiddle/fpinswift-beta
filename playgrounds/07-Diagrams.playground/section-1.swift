@@ -92,10 +92,10 @@ func *(m: CGFloat, v: Vector2D) -> Vector2D {
 }
 
 extension Dictionary {
-    var keysAndValues : [(KeyType,ValueType)] {
-        var result : [(KeyType,ValueType)] = []
+    var keysAndValues : [(Key,Value)] {
+        var result : [(Key,Value)] = []
         for item in self {
-            result += item
+            result.append(item)
         }
         return result
     }

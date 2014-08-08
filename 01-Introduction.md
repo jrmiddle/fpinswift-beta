@@ -5,7 +5,7 @@ available from Apple, and there are many more books on the way. Why does the
 world need yet another book on yet another programming language?
 
 This book tries to teach you to think *functionally*. We believe that
-Swift has the proper language features to teach you how to write
+Swift has the right language features to teach you how to write
 *functional programs*. But what makes a program functional? Or why
 bother learning about this in the first place? In his paper, "Why
 Functional Programming Matters," John Hughes writes:
@@ -30,12 +30,21 @@ confusing; the lack of assignment statements and global state is
 crippling; and closures, generics, higher-order functions, and monads are
 just plain weird.
 
+Throughout this book, we will assume that you have previous
+programming experience in Objective-C (or some other object-oriented
+language). We won't cover Swift basics or teach you to set up your
+first XCode project, but we will try to refer to existing Apple
+documentation when appropriate. You should be comfortable reading
+Swift programs and familiar with common programming concepts, such as
+classes, methods, and variables. If you've only just started to learn
+to program, this may not be the right book for you.
+
 In this book, we want to demystify functional programming and dispel
 some of the prejudices people may have against it. You don't need to
-have a PhD in mathematics to use these ideas to improve your code!  We
-won't cover the complete Swift language specification or teach you to
-set up your first project in Xcode. But we will try to teach you the
-basic principles of pure functional programming that will make you a
-better developer in any language.
+have a PhD in mathematics to use these ideas to improve your code! We
+don't want to claim that functional programming is the *only* way to
+program in Swift. Instead, we believe that learning about functional
+programming add an important new tool to your toolbox that will make
+you a better developer in any language.
 
 

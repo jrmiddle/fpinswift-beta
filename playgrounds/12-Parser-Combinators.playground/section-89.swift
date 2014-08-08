@@ -1,0 +1,1 @@
+testParser(many(decimalDigit), "12345")

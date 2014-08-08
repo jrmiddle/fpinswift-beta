@@ -11,10 +11,7 @@
 <body>
 <div class="content-wrapper">
   <section class="section">
-    <p>From now on, the <code>Region</code> type will refer to functions from a <code>Position</code> to a <code>Bool</code>. This isn&#39;t strictly necessary, but it can make some of the type signatures that we&#39;ll see below a bit easier to digest. </p>
-<p>Instead of defining an object or struct to represent regions, we represent a region by a <em>function</em> that determines if a given point is in the region or not. If you&#39;re not used to functional programming this may seem strange, but remember: functions in Swift are first-class values! We conciously choose the name <code>Region</code> for this type rather than something like <code>CheckInRegion</code> or <code>RegionBlock</code>. These names suggest that they denote a function type; yet the key philosophy underlying <em>functional programming</em> is that functions are values, no different from structs, Ints or Bools -- using a separate naming convention for functions would violate this philosophy. </p>
-<p>We will now write several functions that create, manipulate and combine regions. </p>
-<p>The first region we define is a <code>circle</code>, centered around the origin:</p>
+    <p>The type of this function is going to be so important, that we&#39;re going to give it a separate name:</p>
 
   </section>
 </div>

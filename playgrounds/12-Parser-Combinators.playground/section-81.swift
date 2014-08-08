@@ -1,0 +1,1 @@
+testParser(decimalDigit, "012")

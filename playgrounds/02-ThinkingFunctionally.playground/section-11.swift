@@ -1,1 +1,0 @@
-typealias Region = Position -> Bool

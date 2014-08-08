@@ -1,0 +1,1 @@
+testParser(symbol(a) <|> symbol(b), "bcd")

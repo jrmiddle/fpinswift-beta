@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 85</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The <code>prepend</code> function combines a value of type <code>A</code> and an array <code>[A]</code> into a new array.</p>
+<p>However, if we would try to use this function, we will get stuck in an infinite loop. That&#39;s because of the recursive call of <code>many</code> in the return statement.</p>
+<p>Luckily, we can use auto-closures to defer the evaluation of the recursive call to <code>many</code> until it is really needed and with that break the infinite recursion. To do that, we will first define a helper function <code>recurse</code>: it returns a parser that will only be executed once it&#39;s actually needed, because we use the <code>@autoclosure</code> keyword for the function parameter.</p>
+
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 119</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>However, our parser becomes notably slow as we add more and more operators. This is because the parser is constantly <em>backtracking</em>: it tries to parse something, then fails, and tries another alternative. For example, when trying to parse &quot;1+3*3&quot;, first, the &quot;-&quot; operator is tried (which consists of a &quot;+&quot; expression, followed by a &quot;-&quot; character, and then another &quot;+&quot; expression). The first &quot;+&quot; expression succeeds, but because no &quot;-&quot; character is found, it tries the alternative: just a &quot;+&quot; expression. If we continue this, we can see that a lot of unnecessary work is being done.</p>
+<p>Writing a parser like above is very simple. However, it is not very efficient. If we take a step back, and look at the grammar we&#39;ve defined using our parser combinators, we could write it down like this (in a pseudo-grammar description language):</p>
+<pre><code>expression = min
+min = add &quot;-&quot; add | add
+add = div &quot;+&quot; div | div
+div = mul &quot;/&quot; mul | mul
+mul = num &quot;*&quot; num | num
+</code></pre><p>To remove a lot of the duplication we can refactor this grammar like this:</p>
+<pre><code>expression = min
+min = add (&quot;-&quot; add)?
+add = div (&quot;+&quot; div)?
+div = mul (&quot;/&quot; mul)?
+mul = num (&quot;*&quot; num)?
+</code></pre><p>Before we define the new operator function, we first define an additional variant of the <code>&lt;/&gt;</code> operator that consumes but doesn&#39;t use its right operand:</p>
+
+  </section>
+</div>
+</body>
+</html>

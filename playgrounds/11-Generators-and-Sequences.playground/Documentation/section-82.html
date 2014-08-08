@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 83</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The second for loop is not producing any output -- what went wrong? The problem is in the definition of concatenation on sequences. We assemble the desired generator, <code>l.generate() + r.generate()</code>. This generator produces all the desired elements in the first loop in the example above. Once it has been exhausted, however, traversing the compound sequence a second time will not produce a fresh generator, but instead use the generator that has already been exhausted.</p>
+<p>Fortunately, this problem is easy to fix. We need to ensure that the result of our concatenation operation can produce new generators. To do so, we pass a <em>function</em> that produces generators, rather than a fixed generator to the <code>SequenceOf</code> initializer:</p>
+
+  </section>
+</div>
+</body>
+</html>

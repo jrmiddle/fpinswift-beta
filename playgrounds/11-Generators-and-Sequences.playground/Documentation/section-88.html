@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 89</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>The argument of <code>JoinedGenerator</code> may look complicated, but it does very little. When struggling to understand an expression like this, following the types is usually a good way to learn what it does. We need to provide an argument closure producing a value of type <code>GeneratorOf&lt;GeneratorOf&lt;A&gt;&gt;</code>; calling <code>s.generate()</code> gets us part of the way there, producing a value of type <code>GeneratorOf&lt;SequenceOf&lt;A&gt;&gt;</code>. The only thing we need to do is call <code>generate</code> on all the sequences inside the resulting generators, which is precisely what the call to <code>map</code> accomplishes. </p>
+<p>Finally, we can also combine <code>join</code> and <code>map</code> to write the following <code>flatmap</code> function:</p>
+
+  </section>
+</div>
+</body>
+</html>

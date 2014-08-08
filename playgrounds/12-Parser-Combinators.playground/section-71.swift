@@ -1,0 +1,1 @@
+testParser(pure(toInteger2) <*> symbol(three) <*> symbol(three), "33")

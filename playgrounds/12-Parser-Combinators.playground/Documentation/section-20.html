@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 21</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <h2 id="choice">Choice</h2>
+<p>Parsing a single symbol isn&#39;t very useful, unless we add functions to combine two parsers. The first function that we will introduce is the choice operator, and it can parse using either the left operand or the right operand. It is implemented in a simple way: given an input string, it runs the left operand&#39;s parser, which yields a sequence of possible results. Then it runs the right operand, which also yields a sequence of possible results, and it concatenates the two sequences. Note that the left and the right sequences might both be empty, or contain a lot of elements. Because they are calculated lazily, it doesn&#39;t really matter.</p>
+
+  </section>
+</div>
+</body>
+</html>

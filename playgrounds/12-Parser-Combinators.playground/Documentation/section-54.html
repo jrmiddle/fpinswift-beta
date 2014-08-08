@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Section 55</title>
+  <meta id="xcode-display" name="xcode-display" content="render">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body>
+<div class="content-wrapper">
+  <section class="section">
+    <p>Now we just have to create a function that combines these two parsers and returns a new parser, so that the function yielded by <code>integerParser</code> gets applied to the character &quot;3&quot; yielded by the symbol parser. This function looks very similar to the <code>sequence</code> function -- it calls <code>flatMap</code> on the sequence returned by the first parser and then maps over the sequence returned by the second parser applied to the remainder. </p>
+<p>The key difference is that the inner closure does not return the results of both parsers in a tuple as <code>sequence</code> did, but it applies the function yielded by the first parser to the result of the second parser:</p>
+
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+testParser(parseA(), "test")
